@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fregments :: head"></head>
+<body>
+    <div class="form-body without-side">
+        <div class="website-logo">
+            <a th:href="@{/}">
+                <div class="logo">
+                    <img class="logo-size" th:src="@{images/logo-white.png}" alt="Paper Less Classroom">
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <div class="img-holder">
+                <div class="bg"></div>
+                <div class="info-holder">
+                    <img th:src="@{images/graphic-form.svg}" alt="Graphic">
+                    <img th:src="@{graphic1.svg}" alt="Graphic">
+                </div>
+            </div>
+            <div class="form-holder">
+                <div class="form-content">
+                    <div class="form-items">
+                        <h3>Login to account</h3>
+                        <p>Access the paper less classroom</p>
+                        <form th:action="@{/do-login}" method="post">
+                            <input class="form-control" type="text" name="username" placeholder="E-mail Address" required>
+                            <input class="form-control" type="password" name="password" placeholder="Password" required>
+                            <div class="form-button">
+                                <button id="submit" type="submit" class="ibtn">Login</button> <a href="forget16.html">Forget password?</a>
+                            </div>
+                        </form>
+                        <div class="page-links">
+                            <a th:href="@{/register}">Register new account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fregments :: scripts"></div>
+</body>
+</html>

@@ -40,17 +40,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/").hasAnyAuthority("USER", "CREATOR", "EDITOR", "ADMIN")
-                .antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
-                .antMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")
-                .antMatchers("/delete/**").hasAuthority("ADMIN")
-                .antMatchers("/newUser").permitAll()
-                .antMatchers("/saveUser").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll()
-                .and()
+        http
+                .authorizeRequests()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
+                    .antMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")
+                    .antMatchers("/delete/**").hasAuthority("ADMIN")
+                    .antMatchers("/newUser").permitAll()
+                    .antMatchers("/saveUser").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .loginProcessingUrl("do-login")
+                    .defaultSuccessUrl("/")
+                    .permitAll()
+                    .and()
                 .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");
