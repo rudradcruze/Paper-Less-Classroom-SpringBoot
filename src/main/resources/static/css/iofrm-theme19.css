@@ -35,7 +35,7 @@ body {
 }
 
 .website-logo .logo {
-    background-image: url("../images/logo-dark.svg");
+    background-image: url("../images/logo-dark.png");
 }
 
 .website-logo .logo img {
@@ -47,7 +47,7 @@ body {
 }
 
 .website-logo-inside .logo {
-    background-image: url("../images/logo-dark.svg");
+    background-image: url("../images/logo-dark.png");
 }
 
 .website-logo-inside .logo img {
@@ -533,10 +533,10 @@ body {
     }
 
     .website-logo .logo {
-        background-image: url("../images/logo-dark.svg");
+        background-image: url("../images/logo-dark.png");
     }
 
     .form-body.without-side .website-logo .logo {
-        background-image: url("../images/logo-dark.svg");
+        background-image: url("../images/logo-dark.png");
     }
 }
