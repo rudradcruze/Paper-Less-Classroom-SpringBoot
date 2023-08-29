@@ -33,11 +33,18 @@ public class AuthController {
     @Autowired
     private RoleRepository roleRepository;
 
-    @GetMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Principal principal, Model model) {
         if (principal != null) return "redirect:/";
         model.addAttribute("title", "PLC Login");
         return "login";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("title", "PLC - Registration");
+        return "register";
     }
 
     private Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
@@ -61,7 +68,7 @@ public class AuthController {
                 return "register";
             }
 
-            User userNew = userDetailsService.getByUserEmail(user.getEmail());
+            User userNew = userDetailsService.getByUserEmail(user.getUsername());
 
             if (userNew != null) {
                 model.addAttribute("username", "Email is already registered");

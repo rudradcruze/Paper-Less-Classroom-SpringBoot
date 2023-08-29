@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fregments :: head"></head>
 <body>
     <div class="form-body without-side">
@@ -16,7 +15,6 @@
                 <div class="bg"></div>
                 <div class="info-holder">
                     <img th:src="@{images/graphic-form.svg}" alt="Graphic">
-                    <img th:src="@{graphic1.svg}" alt="Graphic">
                 </div>
             </div>
             <div class="form-holder">
@@ -27,8 +25,8 @@
                         <form th:action="@{/do-login}" method="post">
                             <input class="form-control" type="text" name="username" placeholder="E-mail Address" required>
                             <input class="form-control" type="password" name="password" placeholder="Password" required>
-                            <div class="form-button">
-                                <button id="submit" type="submit" class="ibtn">Login</button> <a href="forget16.html">Forget password?</a>
+                            <div class="form-button mb-5">
+                                <button id="submit" type="submit" class="ibtn">Login</button>
                             </div>
                         </form>
                         <div class="page-links">

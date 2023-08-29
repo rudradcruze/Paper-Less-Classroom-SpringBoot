@@ -1,22 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<!-- Mirrored from brandio.io/envato/iofrm/html/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Aug 2023 04:42:38 GMT -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iofrm</title>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css">
-    <link rel="stylesheet" type="text/css" href="css/iofrm-style.css">
-    <link rel="stylesheet" type="text/css" href="css/iofrm-theme16.css">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fregments :: head"></head>
 <body>
     <div class="form-body without-side">
         <div class="website-logo">
-            <a href="#">
+            <a href="index.html">
                 <div class="logo">
-                    <img class="logo-size" src="images/logo-white.png" alt="Paper Less Classroom">
+                    <img class="logo-size" th:src="@{images/logo-white.png}" alt="Paper Less Classroom">
                 </div>
             </a>
         </div>
@@ -24,18 +14,23 @@
             <div class="img-holder">
                 <div class="bg"></div>
                 <div class="info-holder">
-                    <img src="images/graphic-form.svg" alt="">
+                    <img th:src="@{images/graphic-form.svg}" alt="Graphic">
                 </div>
             </div>
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
                         <h3>Register new account</h3>
-                        <p>Access to the most powerfull tool in the entire design and web industry.</p>
-                        <form>
-                            <input class="form-control" type="text" name="name" placeholder="Full Name" required>
-                            <input class="form-control" type="email" name="email" placeholder="E-mail Address" required>
-                            <input class="form-control" type="password" name="password" placeholder="Password" required>
+                        <p>Break the barrier by registered into the classroom.</p>
+                        <form th:action="@{/do-register}" method="post" th:object="${user}">
+                            <input class="form-control" th:field="*{firstName}" type="text" name="firstName" placeholder="First Name" required>
+                            <input class="form-control" th:field="*{lastName}" type="text" name="lastName" placeholder="Last Name" required>
+                            <input class="form-control" type="email" th:field="*{username}" name="email" placeholder="E-mail Address" required>
+                            <input class="form-control" type="email" th:field="*{username}" name="email" placeholder="E-mail Address" required>
+                            <textarea class="form-control" rows="6" cols="9" th:field="*{address}"></textarea>
+                            <input class="form-control" type="password" th:field="*{password}" name="password" placeholder="Password" required>
+                            <input class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password" required>
+
                             <div class="form-button">
                                 <button id="submit" type="submit" class="ibtn">Register</button>
                             </div>
@@ -45,18 +40,14 @@
                             <a href="#"><i class="fab fa-facebook-f"></i>Facebook</a><a href="#"><i class="fab fa-google"></i>Google</a><a href="#"><i class="fab fa-linkedin-in"></i>Linkedin</a>
                         </div>
                         <div class="page-links">
-                            <a href="login16.html">Login to account</a>
+                            <a th:href="@{/login}">Login to account</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
-</body>
 
-<!-- Mirrored from brandio.io/envato/iofrm/html/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Aug 2023 04:42:38 GMT -->
+    <div th:replace="fregments :: scripts"></div>
+</body>
 </html>
