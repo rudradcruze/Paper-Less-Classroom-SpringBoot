@@ -22,6 +22,9 @@ public class User {
     private String password;
     private boolean enable;
 
+    @OneToMany(mappedBy = "user")
+    private List<UserLog> userLogs = new ArrayList<>();
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
