@@ -71,31 +71,31 @@ public class AuthController {
             User userNew = userDetailsService.getByUserEmail(user.getUsername());
 
             if (userNew != null) {
-                model.addAttribute("username", "Email is already registered");
+                model.addAttribute("error", "Email is already registered");
                 model.addAttribute("user", user);
                 return "register";
             }
 
             if (user.getFirstName().trim() == null) {
-                model.addAttribute("firstname", "First name can not be empty");
+                model.addAttribute("error", "First name can not be empty");
                 model.addAttribute("user", user);
                 return "register";
             }
 
             if (user.getLastName().trim() == null) {
-                model.addAttribute("firstname", "Last name can not be empty");
+                model.addAttribute("error", "Last name can not be empty");
                 model.addAttribute("user", user);
                 return "register";
             }
 
             if (user.getAddress().trim() == null) {
-                model.addAttribute("firstname", "Address can not be empty");
+                model.addAttribute("error", "Address can not be empty");
                 model.addAttribute("user", user);
                 return "register";
             }
 
-            if (isNumeric(user.getPhoneNumber()) && user.getPhoneNumber().length() == 11) {
-                model.addAttribute("phonenumber", "Please enter 11 digit phone number & number only.");
+            if (!isNumeric(user.getPhoneNumber()) && user.getPhoneNumber().length() != 11) {
+                model.addAttribute("error", "Please enter 11 digit phone number & number only.");
                 model.addAttribute("user", user);
                 return "register";
             }
@@ -112,11 +112,11 @@ public class AuthController {
 
                     return "redirect:/login";
                 } else {
-                    model.addAttribute("password", "Password is not same");
+                    model.addAttribute("error", "Password is not same");
                     model.addAttribute("user", user);
                 }
             } else {
-                model.addAttribute("password", "Password should have 5-20 characters");
+                model.addAttribute("error", "Password should have 5-20 characters");
                 model.addAttribute("user", user);
             }
             return "register";
