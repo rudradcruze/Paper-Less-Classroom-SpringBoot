@@ -22,6 +22,9 @@ public class User {
     private String password;
     private boolean enable;
 
+    @OneToMany(mappedBy = "student")
+    private List<ClassroomUser> classroomUsers = new ArrayList<>();
+
     @OneToMany(mappedBy = "user")
     private List<UserLog> userLogs = new ArrayList<>();
 
