@@ -19,4 +19,5 @@ public class Classroom {
     private boolean inviteCodeActivate;
     private User teacher;
     private List<User> students;
+    private String image;
 }
