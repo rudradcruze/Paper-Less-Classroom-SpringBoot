@@ -47,7 +47,7 @@ public class AuthController {
         return "register";
     }
 
-    private Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+    private final Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
 
     public boolean isNumeric(String strNum) {
         if (strNum == null) {

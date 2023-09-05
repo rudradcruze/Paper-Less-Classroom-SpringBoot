@@ -20,12 +20,13 @@ public class User {
     private String phoneNumber;
     private String username;
     private String password;
+    private String imageName;
     private boolean enable;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<ClassroomUser> classroomUsers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserLog> userLogs = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -22,8 +22,10 @@ public class Classroom {
     private String section;
     private String room;
     private String subject;
+    private String url;
     private boolean activate;
     private String inviteCode;
+    private String imageName;
     private boolean inviteCodeActivate;
 
     @ManyToOne

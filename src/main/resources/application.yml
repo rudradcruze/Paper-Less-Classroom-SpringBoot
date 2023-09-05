@@ -15,3 +15,6 @@ spring:
       max-request-size: 50MB
 server:
   port: 8011
+project:
+  image: files/images
+  file: files/content
