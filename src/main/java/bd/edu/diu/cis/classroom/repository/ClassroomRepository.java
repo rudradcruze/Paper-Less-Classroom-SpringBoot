@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ClassroomRepository extends CrudRepository<Classroom, Long> {
     Classroom findClassroomByUrl(String url);
+    Classroom findClassroomByInviteCode(String code);
 }

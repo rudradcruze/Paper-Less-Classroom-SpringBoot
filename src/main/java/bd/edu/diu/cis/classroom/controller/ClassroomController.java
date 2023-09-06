@@ -73,7 +73,13 @@ public class ClassroomController {
 
         classroom.setImageName(fileName);
         classroom.setUrl(RandomString.getAlphaNumericString(20));
-        classroom.setInviteCode(RandomString.getAlphaNumericString(6));
+        String inviteCode = RandomString.getAlphaNumericString(6);
+
+        while (classroomService.findByInviteCode(inviteCode) != null) {
+            inviteCode = RandomString.getAlphaNumericString(6);
+        }
+
+        classroom.setInviteCode(inviteCode);
         classroom.setActivate(true);
         classroom.setInviteCodeActivate(true);
         classroom.setTeacher(userService.getByUserEmail(principal.getName()));
