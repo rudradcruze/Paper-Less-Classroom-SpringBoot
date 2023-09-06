@@ -37,6 +37,7 @@ public class AuthController {
     public String login(Principal principal, Model model) {
         if (principal != null) return "redirect:/";
         model.addAttribute("title", "PLC Login");
+        model.addAttribute("logcss", "logcss");
         return "login";
     }
 
@@ -44,6 +45,7 @@ public class AuthController {
     public String register(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("title", "PLC - Registration");
+        model.addAttribute("logcss", "logcss");
         return "register";
     }
 
