@@ -2,7 +2,7 @@ package bd.edu.diu.cis.classroom.controller;
 
 import bd.edu.diu.cis.classroom.model.Classroom;
 import bd.edu.diu.cis.classroom.service.ClassroomService;
-import bd.edu.diu.cis.classroom.service.FileService;
+import bd.edu.diu.cis.classroom.utils.FileService;
 import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
 import bd.edu.diu.cis.classroom.utils.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,15 +62,15 @@ public class ClassroomController {
             fileName = fileService.uploadFile(imagePath, file, "image");
         }
 
-        System.out.println(fileName);
-
         if (Objects.equals(fileName, "not image")) {
-//            attributes.addFlashAttribute("error", "Upload a valid image file, supported extension: (jpg, png, jpeg, gif)");
             model.addAttribute("error", "Upload a valid image file, supported extension: (jpg, png, jpeg, gif)");
             model.addAttribute("classroom", classroom);
 
             return "new-classroom";
         }
+
+        if (fileName == null)
+            fileName = "1.jpg";
 
         classroom.setImageName(fileName);
         classroom.setUrl(RandomString.getAlphaNumericString(20));

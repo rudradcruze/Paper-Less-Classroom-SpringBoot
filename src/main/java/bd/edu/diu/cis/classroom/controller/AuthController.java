@@ -110,7 +110,7 @@ public class AuthController {
                     roleList.add(roleRepository.findRoleByName("USER"));
                     user.setRoles(roleList);
                     userRepository.save(user);
-                    attributes.addFlashAttribute("success", user.getFirstName() + " is successfully created.");
+                    attributes.addFlashAttribute("success", user.getFirstName() + " is successfully registered.");
 
                     return "redirect:/login";
                 } else {

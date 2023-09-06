@@ -1,15 +1,16 @@
-package bd.edu.diu.cis.classroom.service;
+package bd.edu.diu.cis.classroom.utils;
 
 import bd.edu.diu.cis.classroom.utils.FileExtensionCheck;
 import bd.edu.diu.cis.classroom.utils.RandomString;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 public class FileService {
@@ -20,27 +21,18 @@ public class FileService {
         if (file.isEmpty())
             return null;
 
-        // File name
         String name = file.getOriginalFilename();
 
-        // extract extension
         assert name != null;
-        String extension = name.substring(name.lastIndexOf("."));
+        String extension = name.substring(name.lastIndexOf(".")).replace(".", "");
 
-        // check it is image or not
-        if (type == "image" || FileExtensionCheck.imageCheck(extension)) {
+        if (!Objects.equals(type, "image") || !FileExtensionCheck.imageCheck(extension.toUpperCase())) {
             return "not image";
         }
 
-        System.out.println(extension);
-        System.out.println(FileExtensionCheck.imageCheck(extension));
-
-        String randomId = RandomString.getRandomId().concat(new Date().toString().replaceAll(":", "").replaceAll(" ", "")).concat(extension);
-
-        // Filepath
+        String randomId = RandomString.getRandomId().concat(new Date().toString().replaceAll(":", "").replaceAll(" ", "")).concat("." + extension);
         String filePath = path + File.separator + randomId;
 
-        // File copy
         try {
             Files.copy(file.getInputStream(), Paths.get(filePath));
         } catch (IOException e) {
@@ -49,5 +41,10 @@ public class FileService {
         }
 
         return randomId;
+    }
+
+    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+        String fullPath = path + File.separator+fileName;
+        return new FileInputStream(fullPath);
     }
 }
