@@ -18,6 +18,7 @@ public class Classroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(length = 1000)
     private String description;
     private String section;
     private String room;
@@ -34,6 +35,4 @@ public class Classroom {
 
     @OneToMany(mappedBy = "classroom")
     private List<ClassroomUser> students = new ArrayList<>();
-
-    private String image;
 }

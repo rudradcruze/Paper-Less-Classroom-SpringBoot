@@ -26,6 +26,9 @@ public class User {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<ClassroomUser> classroomUsers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    private List<Classroom> classrooms = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserLog> userLogs = new ArrayList<>();
 

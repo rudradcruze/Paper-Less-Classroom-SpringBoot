@@ -1,10 +1,10 @@
 .website-logo .logo {
-    background-image: url("../images/logo-dark.png");
+    background-image: url("logo-dark.png");
 }
 
 .website-logo .logo {
     display: inline-block;
-    background-image: url("../images/logo-dark.png");
+    background-image: url("logo-dark.png");
     background-size: contain;
     background-repeat: no-repeat;
 }

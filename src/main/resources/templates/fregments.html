@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${title}"></title>
-  <script th:if="${logcss == null}" th:src="@{js/color-modes.js}"></script>
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{css/docsearch.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{css/bootstrap.min.css}">
+  <script th:if="${logcss == null}" th:src="@{../../js/color-modes.js}"></script>
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/docsearch.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../../css/bootstrap.min.css}">
 
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/fontawesome-all.min.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/iofrm-style.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/iofrm-theme19.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/custom-style.css}">
 
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{css/style.css}">
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{css/headers.css}"/>
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{css/sidebars.css}">
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/style.css}">
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/headers.css}"/>
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/sidebars.css}">
 </head>
 <body>
 
@@ -144,13 +144,15 @@
   </div>
 
   <header th:fragment="main-header" class="py-3 border-bottom">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 1fr">
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1.5fr 1fr 1fr">
       <div class="dropdown">
-        <a  th:href="@{/}" class="d-flex align-items-center col-lg-6 mb-2 mb-lg-0 link-body-emphasis text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false" >
-          <img th:src="@{images/logo-icon.png}" width="50px" class="img-fluid" alt="Paper Less Classroom" />
+        <a th:href="@{/}" class="d-flex align-items-center col-lg-6 mb-2 mb-lg-0 link-body-emphasis text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false" >
+          <img th:src="@{../../images/logo-icon.png}" width="50px" class="img-fluid" alt="Paper Less Classroom" />
           <h2 class="ps-3 mb-0">Paper Less Classroom</h2>
         </a>
       </div>
+
+      <h1 th:text="${headTitle} == null ? ' ' : ${headTitle}" class="h1 mb-0"></h1>
 
       <div class="d-flex align-items-center justify-content-end">
         <div class="flex-shrink-0 dropdown">
@@ -177,9 +179,9 @@
   <div th:fragment="scripts">
     <script th:src="@{js/jquery.min.js}"></script>
     <script th:src="@{js/popper.min.js}"></script>
-    <script th:src="@{js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{../../js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{js/main.js}"></script>
-    <script th:src="@{js/sidebars.js}"></script>
+    <script th:src="@{../../js/sidebars.js}"></script>
   </div>
 </body>
 </html>

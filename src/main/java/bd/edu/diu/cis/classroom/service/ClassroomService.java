@@ -4,7 +4,6 @@ import bd.edu.diu.cis.classroom.model.Classroom;
 import bd.edu.diu.cis.classroom.repository.ClassroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class ClassroomService {
         return classRoomRepository.findClassroomByUrl(url);
     }
 
-    public void save(MultipartFile file, Classroom classroom) {
+    public void save(Classroom classroom) {
         classRoomRepository.save(classroom);
     }
 }

@@ -52,14 +52,14 @@
             <div class="p-3 rounded m-3 ms-0 mb-5 border overflow-auto" style="height: 100vh;">
               <div class="pb-5 mb-5">
                 <div class="d-flex flex-wrap gap-4">
-                  <div class="power-hover card" style="width: 23rem; transition: all .3s ease;">
+                  <div th:each="classroom : ${classrooms}" class="power-hover card" style="width: 23rem; transition: all .3s ease;">
                     <a href="#" class="text-decoration-none">
                       <img src="..." class="card-img-top" alt="...">
                       <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Section</p>
+                        <h5 class="card-title" th:text="${classroom.name}">Card title</h5>
+                        <p class="card-text" th:text="${classroom.section}">Section:</p>
                         <div class="border-top my-3"></div>
-                        <p class="text-muted">User: <span></span></p>
+                        <p class="text-muted">User: <span th:text="${classroom.teacher.firstName + ' ' + classroom.teacher.lastName}"></span></p>
                       </div>
                     </a>
                   </div>
