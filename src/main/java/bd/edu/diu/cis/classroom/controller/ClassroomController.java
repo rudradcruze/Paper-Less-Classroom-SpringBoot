@@ -49,7 +49,6 @@ public class ClassroomController {
     public String saveClassroom(
             @RequestParam("file") MultipartFile file,
             @ModelAttribute("classroom") Classroom classroom,
-            RedirectAttributes attributes,
             Principal principal,
             Model model) {
 
