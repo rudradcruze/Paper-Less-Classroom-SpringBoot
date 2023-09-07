@@ -88,6 +88,7 @@ public class ClassroomController {
         classroom.setInviteCode(inviteCode);
         classroom.setActivate(true);
         classroom.setInviteCodeActivate(true);
+        classroom.setCanPost(true);
         classroom.setTeacher(userService.getByUserEmail(principal.getName()));
 
         classroomService.save(classroom);

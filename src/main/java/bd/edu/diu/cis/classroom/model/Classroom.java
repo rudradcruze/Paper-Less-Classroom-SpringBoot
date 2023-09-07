@@ -28,6 +28,7 @@ public class Classroom {
     private String inviteCode;
     private String imageName;
     private boolean inviteCodeActivate;
+    private boolean canPost;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
