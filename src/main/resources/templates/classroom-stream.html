@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fregments :: head"></head>
+
+<body>
+  <div th:replace="fregments :: theme-change"></div>
+  <!-- Main Section Start -->
+  <main>
+    <!-- Main header -->
+    <header th:replace="fregments :: main-header" class="py-3 border-bottom"></header>
+
+    <div th:replace="fregments :: classroom-header"></div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div th:replace="fregments :: sidebar" class="col col-lg-2 col-md-3 col-sm-12 m-0 p-0"></div>
+          <div class="col m-0 p-0">
+            <div class="p-3 rounded m-3 ms-0 mb-5 border overflow-auto mt-0" style="height: 100vh;">
+              <div class="pb-5 mb-5">
+                <div class="row">
+                  <div class="col-lg-10 mt-2 mx-auto">
+                    <div class="mb-2 rounded text-body-emphasis bg-body-secondary">
+                      <div class="col-lg-6 p-0 m-0 position-relative w-100" style="height: 300px;">
+                        <div class="overlay overlay-2"></div>
+                        <img th:src="@{'/files/' + ${classroom.imageName}}" class="w-100 h-100 object-fit-cover rounded border" alt="Classroom Header Image">
+                        <div class="position-absolute start-0 bottom-0 p-4">
+                          <h1 class="display-6 text-white" th:text="${classroom.name}"></h1>
+                          <p th:if="${classroom.section}" class="p-0 mb-0 text-white" th:text="${classroom.section}"></p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--      Description       -->
+                    <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Details
+                          </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <p class="mb-0 pb-1" th:if="${classroom.room}">Room: <span th:text="${classroom.room}"></span></p>
+                            <p class="mb-0 pb-1" th:if="${classroom.subject}">Subject: <span th:text="${classroom.subject}"></span></p>
+                            <p class="mb-0 pb-1" th:if="${classroom.description}">Description: <span th:text="${classroom.description}"></span></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--        Post Something            -->
+                    <div class="accordion mt-2 py-2" id="accordionExample2">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoThree" aria-expanded="false" aria-controls="collapseTwoThree">
+                            <div class="d-flex align-items-center">
+                              <img th:src="@{../../images/avatar.png}" alt="Avatar" width="40" height="40" class="rounded-circle">
+                              <div class="text ms-3">
+                                <p class="mb-0 pb-0">Announce something to your class</p>
+                              </div>
+                            </div>
+                          </button>
+                        </h2>
+                        <div id="collapseTwoThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample2">
+                          <div class="accordion-body">
+                            <form action="#" method="post">
+                              <textarea class="form-control p-3" style="height: 150px;"></textarea>
+                              <div class="mt-3">
+                                <input class="form-control" name="file" type="file" id="formFile">
+                              </div>
+                              <button type="submit" class="btn btn-primary mt-3 px-4">Post</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--      Stream       -->
+                    <div class="streams d-flex gap-4 mt-4">
+                      <div class="left-side bg-body-tertiary rounded border p-3" style="width: 350px;">
+
+                      </div>
+                      <div class="right-side rounded border bg-body p-3 w-100">
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div th:replace="fregments :: classroom-join-modal"></div>
+
+    <div th:replace="fregments :: scripts"></div>
+  </body>
+</html>

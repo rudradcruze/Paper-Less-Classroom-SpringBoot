@@ -111,4 +111,18 @@ public class ClassroomController {
 
         return "classroom-people";
     }
+
+    @GetMapping("/classroom/stream/{url}")
+    public String classroomStream(@PathVariable String url,
+                                  Principal principal,
+                                  Model model) {
+
+        if (principal == null) return "redirect:/";
+
+        Classroom classroom = classroomService.findByUrl(url);
+        model.addAttribute("classroom", classroom);
+        model.addAttribute("active", "stream");
+
+        return "classroom-stream";
+    }
 }

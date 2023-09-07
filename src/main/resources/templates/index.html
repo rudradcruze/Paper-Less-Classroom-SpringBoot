@@ -19,7 +19,7 @@
                 <div th:if="${success}" th:replace="fregments :: alert-success"></div>
                 <div class="d-flex flex-wrap gap-4">
                   <div th:each="classroom : ${classrooms}" class="power-hover card" style="width: 23rem; transition: all .3s ease;">
-                    <a href="#" class="text-decoration-none">
+                    <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="text-decoration-none">
                       <div class="img-fit-power">
                         <div class="overlay"></div>
                         <img th:src="@{'/files/' + ${classroom.imageName}}" class="card-img-top" alt="Classroom Banner">
