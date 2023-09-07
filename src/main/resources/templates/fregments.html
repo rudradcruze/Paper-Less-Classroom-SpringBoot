@@ -188,7 +188,7 @@
 
 
   <div th:fragment="sidebar" class="col col-lg-2 col-md-3 col-sm-12 m-0 p-0">
-    <div class="p-3 bg-body-tertiary rounded m-3 border mt-0" style="height: 100vh;">
+    <div class="p-3 bg-body-tertiary rounded m-3 border mt-0 ms-1" style="height: 100vh;">
       <ul class="list-unstyled ps-0">
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
@@ -197,7 +197,7 @@
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li th:each="classroom : ${session.classrooms}" class="rounded py-2 bg-body m-0 p-0">
-                <a href="#" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
+                <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
                   <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.section}"></p>
                 </a>

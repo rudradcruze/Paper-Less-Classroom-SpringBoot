@@ -33,6 +33,9 @@ public class Classroom {
     @JoinColumn(name = "teacher_id")
     private User teacher;
 
-    @OneToMany(mappedBy = "classroom")
+    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     private List<ClassroomUser> students = new ArrayList<>();
+
+    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 }
