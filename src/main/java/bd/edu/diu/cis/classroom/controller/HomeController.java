@@ -27,6 +27,7 @@ public class HomeController {
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
         model.addAttribute("classrooms", classroomList);
+        session.setAttribute("classrooms", classroomList);
 
         return "index";
     }

@@ -1,7 +1,10 @@
 package bd.edu.diu.cis.classroom.controller;
 
 import bd.edu.diu.cis.classroom.model.Classroom;
+import bd.edu.diu.cis.classroom.model.ClassroomUser;
+import bd.edu.diu.cis.classroom.model.User;
 import bd.edu.diu.cis.classroom.service.ClassroomService;
+import bd.edu.diu.cis.classroom.service.ClassroomUserService;
 import bd.edu.diu.cis.classroom.utils.FileService;
 import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
 import bd.edu.diu.cis.classroom.utils.RandomString;
@@ -9,14 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -30,6 +32,9 @@ public class ClassroomController {
     @Autowired
     private UserDetailsServiceImplement userService;
 
+    @Autowired
+    private ClassroomUserService classroomUserService;
+
     @Value("${project.image}")
     private String imagePath;
 
@@ -42,7 +47,7 @@ public class ClassroomController {
         model.addAttribute("title", "New Classroom");
         model.addAttribute("headTitle", "Create New Classroom");
 
-        return "new-classroom";
+        return "classroom-new";
     }
 
     @PostMapping("/classroom/new/save")
@@ -65,7 +70,7 @@ public class ClassroomController {
             model.addAttribute("error", "Upload a valid image file, supported extension: (jpg, png, jpeg, gif)");
             model.addAttribute("classroom", classroom);
 
-            return "new-classroom";
+            return "classroom-new";
         }
 
         if (fileName == null)
@@ -88,5 +93,22 @@ public class ClassroomController {
         classroomService.save(classroom);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/classroom/people/{url}")
+    public String classroomPeople(@PathVariable String url,
+                                  Model model, Principal principal, HttpSession session) {
+
+        if (principal == null) return "redirect:/login";
+
+        Classroom classroom = classroomService.findByUrl(url);
+        List<ClassroomUser> classroomUserList = classroomUserService.listUsersByClassroomUrl(url);
+        User user = userService.getByUserEmail(principal.getName());
+        session.setAttribute("user", user);
+        model.addAttribute("classroom", classroom);
+        model.addAttribute("classroomUserList", classroomUserList);
+        model.addAttribute("active", "people");
+
+        return "classroom-people";
     }
 }

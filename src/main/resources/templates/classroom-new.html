@@ -11,45 +11,9 @@
 
       <div class="container-fluid">
         <div class="row">
-          <div class="col col-lg-2 col-md-3 col-sm-12 m-0 p-0">
-            <div class="p-3 bg-body-tertiary rounded m-3 border" style="height: 100vh;">
-              <ul class="list-unstyled ps-0">
-                <li class="mb-1">
-                  <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                    Teaching
-                  </button>
-                  <div class="collapse show" id="home-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                      <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Test</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="mb-1">
-                  <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                    Enrolled
-                  </button>
-                  <div class="collapse" id="dashboard-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                      <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Test</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="border-top my-3"></li>
-                <li class="mb-1">
-                  <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                    General
-                  </button>
-                  <div class="collapse" id="account-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                      <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Question Bank</a></li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <div th:replace="fregments :: sidebar" class="col col-lg-2 col-md-3 col-sm-12 m-0 p-0"></div>
           <div class="col m-0 p-0">
-            <div class="p-3 rounded m-3 ms-0 mb-5 border overflow-auto" style="height: 100vh;">
+            <div class="p-3 rounded m-3 ms-0 mb-5 border overflow-auto mt-0" style="height: 100vh;">
               <div class="pb-5 mb-5">
                 <div class="row">
                   <div class="col-lg-7 mt-5 mx-auto">
@@ -94,6 +58,8 @@
         </div>
       </div>
     </main>
+
+  <div th:replace="fregments :: classroom-join-modal"></div>
 
     <div th:replace="fregments :: scripts"></div>
   </body>

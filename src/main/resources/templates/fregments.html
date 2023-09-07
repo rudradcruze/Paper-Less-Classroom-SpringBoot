@@ -143,10 +143,10 @@
     </div>
   </div>
 
-  <header th:fragment="main-header" class="py-3 border-bottom">
+  <header th:fragment="main-header" class="py-3 border-bottom mb-3">
     <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1.5fr 1fr 1fr">
       <div class="dropdown">
-        <a th:href="@{/}" class="d-flex align-items-center col-lg-6 mb-2 mb-lg-0 link-body-emphasis text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false" >
+        <a th:href="@{/}" class="d-flex align-items-center col-lg-6 mb-2 mb-lg-0 link-body-emphasis text-decoration-none" aria-expanded="false" >
           <img th:src="@{../../images/logo-icon.png}" width="50px" class="img-fluid" alt="Paper Less Classroom" />
           <h2 class="ps-3 mb-0">Paper Less Classroom</h2>
         </a>
@@ -176,8 +176,19 @@
     </div>
   </header>
 
+  <div th:fragment="classroom-header" class="container">
+    <header class="d-flex justify-content-center pb-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#" class="nav-link">Stream</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Classwork</a></li>
+        <li class="nav-item"><a th:href="@{'/classroom/people/' + ${classroom.url}}" th:class="${active == 'people' ? 'active nav-link' : ' '}">People</a></li>
+      </ul>
+    </header>
+  </div>
+
+
   <div th:fragment="sidebar" class="col col-lg-2 col-md-3 col-sm-12 m-0 p-0">
-    <div class="p-3 bg-body-tertiary rounded m-3 border" style="height: 100vh;">
+    <div class="p-3 bg-body-tertiary rounded m-3 border mt-0" style="height: 100vh;">
       <ul class="list-unstyled ps-0">
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
@@ -185,7 +196,7 @@
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li th:each="classroom : ${classrooms}" class="rounded py-2 bg-body m-0 p-0">
+              <li th:each="classroom : ${session.classrooms}" class="rounded py-2 bg-body m-0 p-0">
                 <a href="#" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
                   <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.section}"></p>
