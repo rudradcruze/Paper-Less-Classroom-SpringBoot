@@ -75,6 +75,7 @@ public class ClassroomController {
         classroom.setUrl(RandomString.getAlphaNumericString(20));
         String inviteCode = RandomString.getAlphaNumericString(6);
 
+        // generate invite code until the classroom gets null
         while (classroomService.findByInviteCode(inviteCode) != null) {
             inviteCode = RandomString.getAlphaNumericString(6);
         }

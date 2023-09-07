@@ -26,4 +26,5 @@ public class ClassroomUser {
     private User student;
 
     private Date registered;
+    private boolean activate;
 }
