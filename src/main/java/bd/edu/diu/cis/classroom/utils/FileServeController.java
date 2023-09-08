@@ -27,23 +27,33 @@ public class FileServeController {
     @GetMapping("/files/{name}")
     public void serveFile(
             @PathVariable("name") String name,
-            HttpServletResponse response) throws IOException {
+            HttpServletResponse response) {
         String extension = name.substring(name.lastIndexOf("."));
 
         InputStream resource;
         extension = extension.replace(".", "");
+
         if (FileExtensionCheck.imageCheck(extension.toUpperCase()))
             resource = fileService.getResource(imagePath, name);
         else
             resource = fileService.getResource(contentPath, name);
+
+        if (resource == null)
+            resource = fileService.getResource(imagePath, "resource.jpg");
+
 
         switch (extension) {
             case "png" -> response.setContentType(MediaType.IMAGE_PNG_VALUE);
             case "jpg", "jpeg" -> response.setContentType(MediaType.IMAGE_JPEG_VALUE);
             case "gif" -> response.setContentType(MediaType.IMAGE_GIF_VALUE);
             case "pdf" -> response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+            default -> response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         }
 
-        StreamUtils.copy(resource, response.getOutputStream());
+        try {
+            StreamUtils.copy(resource, response.getOutputStream());
+        } catch (IOException e) {
+            System.out.println("File not found.");
+        }
     }
 }

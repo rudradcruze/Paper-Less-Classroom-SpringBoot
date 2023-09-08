@@ -1,8 +1,5 @@
 package bd.edu.diu.cis.classroom.utils;
 
-import bd.edu.diu.cis.classroom.utils.FileExtensionCheck;
-import bd.edu.diu.cis.classroom.utils.RandomString;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +23,7 @@ public class FileService {
         assert name != null;
         String extension = name.substring(name.lastIndexOf(".")).replace(".", "");
 
-        if (!Objects.equals(type, "image") || !FileExtensionCheck.imageCheck(extension.toUpperCase())) {
+        if (Objects.equals(type, "image") && !FileExtensionCheck.imageCheck(extension.toUpperCase())) {
             return "not image";
         }
 
@@ -43,8 +40,13 @@ public class FileService {
         return randomId;
     }
 
-    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+    public InputStream getResource(String path, String fileName) {
         String fullPath = path + File.separator+fileName;
-        return new FileInputStream(fullPath);
+        try {
+            return new FileInputStream(fullPath);
+        } catch (FileNotFoundException e) {
+            System.out.println("Message: " + e.getMessage());
+            return null;
+        }
     }
 }
