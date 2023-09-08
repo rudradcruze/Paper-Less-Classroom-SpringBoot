@@ -196,7 +196,7 @@
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li th:each="classroom : ${session.classrooms}" class="rounded py-2 bg-body m-0 p-0">
+              <li th:each="classroom : ${classrooms}" class="rounded py-2 bg-body m-0 p-0">
                 <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
                   <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.section}"></p>
@@ -259,10 +259,10 @@
   </div>
 
   <div th:fragment="scripts">
-    <script th:src="@{js/jquery.min.js}"></script>
-    <script th:src="@{js/popper.min.js}"></script>
+    <script th:src="@{../../js/jquery.min.js}"></script>
+    <script th:src="@{../../js/popper.min.js}"></script>
     <script th:src="@{../../js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{js/main.js}"></script>
+    <script th:src="@{../../js/main.js}"></script>
     <script th:src="@{../../js/sidebars.js}"></script>
   </div>
 </body>

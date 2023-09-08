@@ -2,6 +2,7 @@ package bd.edu.diu.cis.classroom.controller;
 
 import bd.edu.diu.cis.classroom.model.Classroom;
 import bd.edu.diu.cis.classroom.model.ClassroomUser;
+import bd.edu.diu.cis.classroom.model.Post;
 import bd.edu.diu.cis.classroom.model.User;
 import bd.edu.diu.cis.classroom.service.ClassroomService;
 import bd.edu.diu.cis.classroom.service.ClassroomUserService;
@@ -106,6 +107,8 @@ public class ClassroomController {
         List<ClassroomUser> classroomUserList = classroomUserService.listUsersByClassroomUrl(url);
         User user = userService.getByUserEmail(principal.getName());
         session.setAttribute("user", user);
+        List<Classroom> classroomList = user.getClassrooms();
+        model.addAttribute("classrooms", classroomList);
         model.addAttribute("classroom", classroom);
         model.addAttribute("classroomUserList", classroomUserList);
         model.addAttribute("active", "people");
@@ -121,8 +124,12 @@ public class ClassroomController {
         if (principal == null) return "redirect:/";
 
         Classroom classroom = classroomService.findByUrl(url);
+        List<Post> posts = classroom.getPosts();
+        List<Classroom> classroomList = userService.getByUserEmail(principal.getName()).getClassrooms();
+        model.addAttribute("classrooms", classroomList);
         model.addAttribute("classroom", classroom);
         model.addAttribute("active", "stream");
+        model.addAttribute("posts", posts);
 
         return "classroom-stream";
     }

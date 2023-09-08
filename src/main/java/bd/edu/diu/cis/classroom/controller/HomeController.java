@@ -19,11 +19,6 @@ public class HomeController {
     @Autowired
     private UserDetailsServiceImplement userService;
 
-    public static void classroomsList(HttpSession session, User user) {
-        List<Classroom> classroomList = user.getClassrooms();
-        session.setAttribute("classrooms", classroomList);
-    }
-
     @GetMapping("/")
     public String home(Model model, Principal principal, HttpSession session) {
         if (principal == null)
@@ -33,7 +28,6 @@ public class HomeController {
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
         model.addAttribute("classrooms", classroomList);
-        classroomsList(session, user);
 
         return "index";
     }
