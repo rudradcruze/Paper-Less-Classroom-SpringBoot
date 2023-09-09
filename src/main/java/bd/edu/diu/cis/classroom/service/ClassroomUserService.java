@@ -1,7 +1,6 @@
 package bd.edu.diu.cis.classroom.service;
 
 import bd.edu.diu.cis.classroom.model.ClassroomUser;
-import bd.edu.diu.cis.classroom.repository.ClassroomRepository;
 import bd.edu.diu.cis.classroom.repository.ClassroomUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class ClassroomUserService {
     public void save(ClassroomUser classroomUser) {classroomUserRepository.save(classroomUser);}
 
     public List<ClassroomUser> listUsersByClassroomUrl(String url) {
-        return (List<ClassroomUser>) classroomUserRepository.findClassroomUsersByClassroomUrl(url);
+        return (List<ClassroomUser>) classroomUserRepository.findClassroomUsersByClassroomUrlOrderByRegisteredAsc(url);
     }
 
 }

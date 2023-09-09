@@ -104,7 +104,15 @@ public class ClassroomController {
         if (principal == null) return "redirect:/login";
 
         Classroom classroom = classroomService.findByUrl(url);
-        List<ClassroomUser> classroomUserList = classroomUserService.listUsersByClassroomUrl(url);
+        userAndClassroom(model, principal, session, userService);
+        model.addAttribute("classroom", classroom);
+        model.addAttribute("classroomUserList", classroom.getStudents());
+        model.addAttribute("active", "people");
+
+        return "classroom-people";
+    }
+
+    static void userAndClassroom(Model model, Principal principal, HttpSession session, UserDetailsServiceImplement userService) {
         User user = userService.getByUserEmail(principal.getName());
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
@@ -113,28 +121,18 @@ public class ClassroomController {
             classroomList.add(cu.getClassroom());
         }
         model.addAttribute("classrooms", classroomList);
-        model.addAttribute("classroom", classroom);
-        model.addAttribute("classroomUserList", classroomUserList);
-        model.addAttribute("active", "people");
-
-        return "classroom-people";
     }
 
     @GetMapping("/classroom/stream/{url}")
     public String classroomStream(@PathVariable String url,
                                   Principal principal,
-                                  Model model) {
+                                  Model model, HttpSession session) {
 
         if (principal == null) return "redirect:/";
 
         Classroom classroom = classroomService.findByUrl(url);
         List<Post> posts = classroom.getPosts();
-        List<Classroom> classroomList = userService.getByUserEmail(principal.getName()).getClassrooms();
-
-        for (ClassroomUser cu : userService.getByUserEmail(principal.getName()).getClassroomUsers()) {
-            classroomList.add(cu.getClassroom());
-        }
-        model.addAttribute("classrooms", classroomList);
+        userAndClassroom(model, principal, session, userService);
         model.addAttribute("classroom", classroom);
         model.addAttribute("active", "stream");
         model.addAttribute("posts", posts);
