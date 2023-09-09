@@ -16,8 +16,8 @@ public class PostService {
         return postRepository.findPostById(id);
     }
 
-    public List<Post> getAllByClassroomUrl(String url) {
-        return postRepository.findPostsByClassroomUrl(url);
+    public List<Post> getAllByClassroomUrlDateDesc(String url) {
+        return postRepository.findPostsByClassroomUrlOrderByPostDateDesc(url);
     }
 
     public void save(Post post) {

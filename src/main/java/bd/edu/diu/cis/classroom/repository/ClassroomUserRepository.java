@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ClassroomUserRepository extends CrudRepository<ClassroomUser, Long> {
-    List<ClassroomUser> findClassroomUsersByClassroomUrlOrderByRegisteredAsc(String url);
+    List<ClassroomUser> findClassroomUsersByClassroomUrlOrderByRegisteredDesc(String url);
 }

@@ -6,11 +6,13 @@ import bd.edu.diu.cis.classroom.model.Post;
 import bd.edu.diu.cis.classroom.model.User;
 import bd.edu.diu.cis.classroom.service.ClassroomService;
 import bd.edu.diu.cis.classroom.service.ClassroomUserService;
+import bd.edu.diu.cis.classroom.service.PostService;
 import bd.edu.diu.cis.classroom.utils.FileService;
 import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
 import bd.edu.diu.cis.classroom.utils.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,9 @@ public class ClassroomController {
 
     @Autowired
     private ClassroomUserService classroomUserService;
+
+    @Autowired
+    private PostService postService;
 
     @Value("${project.image}")
     private String imagePath;
@@ -106,7 +111,7 @@ public class ClassroomController {
         Classroom classroom = classroomService.findByUrl(url);
         userAndClassroom(model, principal, session, userService);
         model.addAttribute("classroom", classroom);
-        model.addAttribute("classroomUserList", classroom.getStudents());
+        model.addAttribute("classroomUserList", classroomUserService.listUsersByClassroomUrl(url));
         model.addAttribute("active", "people");
 
         return "classroom-people";
@@ -131,7 +136,7 @@ public class ClassroomController {
         if (principal == null) return "redirect:/";
 
         Classroom classroom = classroomService.findByUrl(url);
-        List<Post> posts = classroom.getPosts();
+        List<Post> posts = postService.getAllByClassroomUrlDateDesc(url);
         userAndClassroom(model, principal, session, userService);
         model.addAttribute("classroom", classroom);
         model.addAttribute("active", "stream");

@@ -16,7 +16,7 @@ public class ClassroomUserService {
     public void save(ClassroomUser classroomUser) {classroomUserRepository.save(classroomUser);}
 
     public List<ClassroomUser> listUsersByClassroomUrl(String url) {
-        return (List<ClassroomUser>) classroomUserRepository.findClassroomUsersByClassroomUrlOrderByRegisteredAsc(url);
+        return (List<ClassroomUser>) classroomUserRepository.findClassroomUsersByClassroomUrlOrderByRegisteredDesc(url);
     }
 
 }

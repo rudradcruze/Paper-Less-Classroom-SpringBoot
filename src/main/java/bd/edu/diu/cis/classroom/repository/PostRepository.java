@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
     Post findPostById(long id);
-    List<Post> findPostsByClassroomUrl(String url);
+    List<Post> findPostsByClassroomUrlOrderByPostDateDesc(String url);
 }
