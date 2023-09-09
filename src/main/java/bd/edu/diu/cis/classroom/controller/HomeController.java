@@ -1,6 +1,7 @@
 package bd.edu.diu.cis.classroom.controller;
 
 import bd.edu.diu.cis.classroom.model.Classroom;
+import bd.edu.diu.cis.classroom.model.ClassroomUser;
 import bd.edu.diu.cis.classroom.model.User;
 import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
 import org.hibernate.Session;
@@ -27,6 +28,11 @@ public class HomeController {
         User user = userService.getByUserEmail(principal.getName());
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
+
+        for (ClassroomUser cu : user.getClassroomUsers()) {
+            classroomList.add(cu.getClassroom());
+        }
+
         model.addAttribute("classrooms", classroomList);
 
         return "index";

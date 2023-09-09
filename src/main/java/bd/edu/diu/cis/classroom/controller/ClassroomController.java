@@ -108,6 +108,10 @@ public class ClassroomController {
         User user = userService.getByUserEmail(principal.getName());
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
+
+        for (ClassroomUser cu : user.getClassroomUsers()) {
+            classroomList.add(cu.getClassroom());
+        }
         model.addAttribute("classrooms", classroomList);
         model.addAttribute("classroom", classroom);
         model.addAttribute("classroomUserList", classroomUserList);
@@ -126,6 +130,10 @@ public class ClassroomController {
         Classroom classroom = classroomService.findByUrl(url);
         List<Post> posts = classroom.getPosts();
         List<Classroom> classroomList = userService.getByUserEmail(principal.getName()).getClassrooms();
+
+        for (ClassroomUser cu : userService.getByUserEmail(principal.getName()).getClassroomUsers()) {
+            classroomList.add(cu.getClassroom());
+        }
         model.addAttribute("classrooms", classroomList);
         model.addAttribute("classroom", classroom);
         model.addAttribute("active", "stream");
