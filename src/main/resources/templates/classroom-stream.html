@@ -66,7 +66,7 @@
                         <div id="collapseTwoThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample2">
                           <div class="accordion-body">
                             <form th:action="@{'/classroom/post/' + ${classroom.url} + '?type=post'}" enctype="multipart/form-data" method="post">
-                              <textarea class="form-control p-3" name="content" style="height: 150px;"></textarea>
+                              <textarea class="content-richText form-control p-3" name="content" style="height: 150px;"></textarea>
                               <div class="mt-3">
                                 <input class="form-control" name="file" type="file" id="formFile">
                               </div>
@@ -124,7 +124,7 @@
 
                             <!-- content -->
                             <div class="row">
-                              <div class="content p-0 m-0" th:text="${post.content}"></div>
+                              <div class="content p-0 m-0" th:utext="${post.content}"></div>
                               <a th:if="${post.fileName != null}" th:href="@{'/files/' + ${post.fileName}}" class="mx-0 mt-3 px-0 d-flex align-items-center text-decoration-none bg-body-tertiary rounded w-25">
                                 <img th:src="@{/files/file.jpg}" style="width: 70px;" class="img-fluid rounded m-0 p-0" alt="File">
                                 <p class="p-0 m-0 ms-3 fs-4 ps-2 fw-light">Download</p>

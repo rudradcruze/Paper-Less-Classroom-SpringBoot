@@ -8,7 +8,8 @@
   <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/docsearch.css}">
   <link rel="stylesheet" type="text/css" th:href="@{../../css/bootstrap.min.css}">
 
-  <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/fontawesome-all.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../../css/fontawesome-all.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../../css/font-awesome.min.4.7.0.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/iofrm-style.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/iofrm-theme19.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/custom-style.css}">
@@ -16,6 +17,7 @@
   <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/style.css}">
   <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/headers.css}"/>
   <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/sidebars.css}">
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../css/richtext.min.css}">
 </head>
 <body>
 
@@ -196,7 +198,7 @@
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li th:each="classroom : ${classrooms}" th:if="${classroom.teacher.username == session.user.username}" class="rounded py-2 bg-body m-0 p-0 mb-0">
+              <li th:each="classroom : ${classrooms}" th:if="${classroom.teacher.username == session.user.username}" class="rounded py-2 bg-body m-0 p-0 mb-2">
                 <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
                   <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.section}"></p>
@@ -270,6 +272,7 @@
     <script th:src="@{../../js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{../../js/main.js}"></script>
     <script th:src="@{../../js/sidebars.js}"></script>
+    <script th:if="${logcss == null}" th:src="@{../../js/jquery.richtext.min.js}"></script>
   </div>
 </body>
 </html>

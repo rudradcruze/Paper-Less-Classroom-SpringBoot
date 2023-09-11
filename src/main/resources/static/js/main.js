@@ -13,7 +13,11 @@ $(window).on("load", function() {
             $('<small class="error-message">Please fill the field.</small>').insertAfter(inputField);
         }
 
-    });
+    },
+
+        $(".content-richText").richText()
+
+    );
     
     $('.btn-tab-next').on('click',function(e){
         e.preventDefault();
