@@ -3,6 +3,8 @@ package bd.edu.diu.cis.classroom.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,4 +25,7 @@ public class Section {
     private String joinCode;
     private boolean status;
     private boolean meetingLinkStatus;
+
+    @OneToMany(mappedBy = "section", fetch = FetchType.LAZY)
+    private List<SectionUser> students = new ArrayList<>();
 }
