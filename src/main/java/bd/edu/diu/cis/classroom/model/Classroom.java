@@ -21,6 +21,7 @@ public class Classroom {
     @Column(length = 1000)
     private String description;
     private String section;
+    private String session;
     private String room;
     private String subject;
     private String url;
@@ -29,6 +30,8 @@ public class Classroom {
     private String imageName;
     private boolean inviteCodeActivate;
     private boolean canPost;
+    private String meetingLink;
+    private boolean meetingLinkStatus;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
@@ -36,6 +39,9 @@ public class Classroom {
 
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     private List<ClassroomUser> students = new ArrayList<>();
+
+    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
+    private List<Section> sections = new ArrayList<>();
 
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();

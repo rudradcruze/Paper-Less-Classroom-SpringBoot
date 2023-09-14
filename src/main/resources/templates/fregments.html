@@ -170,6 +170,7 @@
             <li><a class="dropdown-item" th:href="@{/classroom/new}">New Classroom</a></li>
             <li><a class="dropdown-item pe-auto" href="#" data-bs-toggle="modal" data-bs-target="#classRoomJoin">Join Classroom</a></li>
             <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#sectionCreate">Create Section</a></li>
             <li><hr class="dropdown-divider"/></li>
             <li><a class="dropdown-item text-danger" th:href="@{/logout}">Sign out</a></li>
           </ul>
@@ -179,11 +180,14 @@
   </header>
 
   <div th:fragment="classroom-header" class="container">
-    <header class="d-flex justify-content-center pb-1">
+    <header class="d-flex justify-content-between pb-1">
       <ul class="nav nav-pills">
         <li class="nav-item"><a th:href="@{'/classroom/stream/' + ${classroom.url}}" th:class="${active == 'stream' ? 'active nav-link' : ' nav-link'}" class="nav-link">Stream</a></li>
         <li class="nav-item"><a href="#" class="nav-link">Classwork</a></li>
         <li class="nav-item"><a th:href="@{'/classroom/people/' + ${classroom.url}}" th:class="${active == 'people' ? 'active nav-link' : ' nav-link'}">People</a></li>
+      </ul>
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-cog fs-4" aria-hidden="true"></i></a></li>
       </ul>
     </header>
   </div>
@@ -260,6 +264,38 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Join Now</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div th:fragment="classroom-section-modal" class="modal fade" id="sectionCreate" tabindex="-1" aria-labelledby="sectionCreateModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="sectionCreateLabel">Create Section</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form th:action="@{'/classroom/section/create/' + ${classroom.url}}" method="post">
+          <div class="modal-body">
+            <div class="mb-3">
+              <input type="text" name="classroom" th:value="${classroom.name}" disabled class="form-control user-select-none">
+            </div>
+
+            <div class="mb-3">
+              <label for="inviteCode" class="form-label">Section Name</label>
+              <input type="text" name="sectionName" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label for="inviteCode" class="form-label">Meeting Link</label>
+              <input type="url" name="meetingLink" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create Section</button>
           </div>
         </form>
       </div>

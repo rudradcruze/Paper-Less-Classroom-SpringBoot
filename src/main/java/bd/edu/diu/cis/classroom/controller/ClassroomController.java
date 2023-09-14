@@ -12,7 +12,6 @@ import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
 import bd.edu.diu.cis.classroom.utils.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -83,15 +82,21 @@ public class ClassroomController {
             fileName = "1.jpg";
 
         classroom.setImageName(fileName);
-        classroom.setUrl(RandomString.getAlphaNumericString(20));
-        String inviteCode = RandomString.getAlphaNumericString(6);
 
-        // generate invite code until the classroom gets null
+        // sending classroom url
+        String classroomUrl = RandomString.getAlphaNumericString(20);
+        while (classroomService.findByUrl(classroomUrl) != null) {
+            classroomUrl = RandomString.getAlphaNumericString(20);
+        }
+        classroom.setUrl(classroomUrl);
+
+        // sending invite code
+        String inviteCode = RandomString.getAlphaNumericString(6);
         while (classroomService.findByInviteCode(inviteCode) != null) {
             inviteCode = RandomString.getAlphaNumericString(6);
         }
-
         classroom.setInviteCode(inviteCode);
+
         classroom.setActivate(true);
         classroom.setInviteCodeActivate(true);
         classroom.setCanPost(true);

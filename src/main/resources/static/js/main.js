@@ -29,30 +29,18 @@ $(window).on("load", function() {
     });
 });
 
-    function clickToInviteCode() {
-        // Get the text field
-        const copyText = document.getElementById("copyInviteCode");
 
+    function clickToInviteCode(copyText) {
+
+        // const copyText = document.getElementById(element);
+
+        // console.log(copyText);
         // Select the text field
         copyText.select();
         copyText.setSelectionRange(0, 99999); // For mobile devices
 
-        // Copy the text inside the text field
+        // // Copy the text inside the text field
         navigator.clipboard.writeText(copyText.value);
         console.log(copyText.value);
     }
 
-    // document.getElementById("test").onclick = function() {myFunction()};
-    //
-    // function myFunction() {
-    //     // Get the text field
-    //     const copyText = document.getElementById("copyInviteCode");
-    //
-    //     // Select the text field
-    //     copyText.select();
-    //     copyText.setSelectionRange(0, 99999); // For mobile devices
-    //
-    //     // Copy the text inside the text field
-    //     navigator.clipboard.writeText(copyText.value);
-    //     console.log(copyText.value);
-    // }

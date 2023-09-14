@@ -12,7 +12,8 @@ public class RandomString {
     public static String getAlphaNumericString(int n) {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + (new Date().getTime())/1000
-                + "abcdefghijklmnopqrstuvxyz";
+                + "abcdefghijklmnopqrstuvxyz"
+                + "\" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\"";
 
         StringBuilder sb = new StringBuilder(n);
 

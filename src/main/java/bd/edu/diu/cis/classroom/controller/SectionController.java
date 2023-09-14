@@ -1,0 +1,68 @@
+package bd.edu.diu.cis.classroom.controller;
+
+import bd.edu.diu.cis.classroom.model.Classroom;
+import bd.edu.diu.cis.classroom.model.Section;
+import bd.edu.diu.cis.classroom.service.ClassroomService;
+import bd.edu.diu.cis.classroom.service.SectionService;
+import bd.edu.diu.cis.classroom.utils.RandomString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+
+@Controller
+public class SectionController {
+
+    @Autowired
+    private SectionService sectionService;
+
+    @Autowired
+    private ClassroomService classroomService;
+
+
+    @PostMapping("/classroom/section/create/{url}")
+    public String newSection(Principal principal,
+                            @PathVariable String url,
+                            @RequestParam("sectionName") String sectionName,
+                            @RequestParam("meetingLink") String meetingLink,
+                            RedirectAttributes attributes) {
+
+        if (principal == null) return "redirect:/login";
+
+        if (sectionName.isEmpty() || sectionName.isBlank()) {
+            attributes.addFlashAttribute("error", "Section cannot be empty");
+            return "redirect:/classroom/stream/" + url;
+        }
+
+        Section sectionCheck = sectionService.getByName(sectionName);
+
+        if (sectionCheck != null && sectionName.equals(sectionCheck.getName())) {
+            attributes.addFlashAttribute("error", "This section is already exist in this classroom!");
+            return "redirect:/classroom/stream/" + url;
+        }
+
+        Classroom classroom = classroomService.findByUrl(url);
+
+        // sending invite code
+        String inviteCode = RandomString.getAlphaNumericString(10);
+        while (classroomService.findByInviteCode(inviteCode) != null) {
+            inviteCode = RandomString.getAlphaNumericString(10);
+        }
+
+        Section section = new Section();
+
+        section.setClassroom(classroom);
+        section.setStatus(true);
+        section.setMeetingLink(meetingLink);
+        section.setMeetingLinkStatus(true);
+        section.setJoinCode(inviteCode);
+
+        sectionService.save(section);
+
+        return "redirect:/classroom/stream/" + url;
+    }
+}
