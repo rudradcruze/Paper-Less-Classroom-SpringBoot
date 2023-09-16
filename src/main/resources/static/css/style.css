@@ -108,3 +108,8 @@
 .power-hover:hover .overlay {
   background: rgba(0,0,0, .6);
 }
+
+.richText-toolbar a,
+a.richText-btn {
+  color: #000;
+}

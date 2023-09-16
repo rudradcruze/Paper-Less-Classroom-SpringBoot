@@ -31,4 +31,6 @@ public class SectionService {
         sectionRepository.delete(getById(id));
     }
 
+    public Section getByJoinCode(String code) { return sectionRepository.findSectionByJoinCode(code); }
+
 }

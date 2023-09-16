@@ -11,5 +11,5 @@ public interface SectionRepository extends CrudRepository<Section, Long> {
     List<Section> findSectionsByClassroomUrl(String url);
     Section findSectionById(long id);
     Section findSectionByName(String name);
-    Section findByName(String name);
+    Section findSectionByJoinCode(String code);
 }

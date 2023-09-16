@@ -250,7 +250,7 @@
           <h1 class="modal-title fs-5" id="classRoomJoinLabel">Join Classroom</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form th:action="@{/classroom/join}" method="post">
+        <form th:action="@{/classroom/section/join}" method="post">
           <div class="modal-body">
             <div class="mb-3">
               <input type="text" name="user" th:value="${session.user.firstName + ' ' + session.user.lastName}" disabled class="form-control user-select-none">

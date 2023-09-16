@@ -20,9 +20,12 @@
                 <div class="row">
                   <div class="col-lg-7 mt-5 mx-auto">
                     <table class="table">
-                      <div class="d-flex justify-content-between align-items-end pb-3">
+                      <div class="d-flex justify-content-between align-items-center pb-3">
                         <h2 class="mb-0 pb-0">Teacher</h2>
-                        <p class="mb-0 pb-0">1 teacher<span></span></p>
+                        <ul class="d-flex align-items-center mb-0">
+                          <li class="list-group-item"><a href="#" class="btn p-1 px-2 mx-2"><i class="fa fa-user-plus fs-4" aria-hidden="true"></i></a></li>
+                          <li class="list-group-item"><p class="mb-0 pb-0 me-2">1 teacher<span></span></p></li>
+                        </ul>
                       </div>
                       <tbody class="table-group-divider">
                       <tr>
@@ -33,7 +36,7 @@
                       </tbody>
                     </table>
                     <table class="table">
-                      <div class="d-flex justify-content-between align-items-end mt-5 pb-3">
+                      <div class="d-flex justify-content-between align-items-center mt-5 pb-3">
                         <h2 class="mb-0 pb-0">Classmates</h2>
                         <p class="mb-0 pb-0"><span th:text="${classroomUserList.size()}"></span> students</p>
                       </div>
