@@ -60,9 +60,15 @@ public class SectionController {
         section.setMeetingLink(meetingLink);
         section.setMeetingLinkStatus(true);
         section.setJoinCode(inviteCode);
+        section.setName(sectionName);
 
-        sectionService.save(section);
+        try {
+            sectionService.save(section);
+            attributes.addFlashAttribute("success", "Successfully \"" + sectionName + "\" section is created.");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Internal Server error");
+        }
 
-        return "redirect:/classroom/stream/" + url;
+        return "redirect:/classroom/setting/" + url;
     }
 }

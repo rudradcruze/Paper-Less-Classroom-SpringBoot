@@ -170,7 +170,6 @@
             <li><a class="dropdown-item" th:href="@{/classroom/new}">New Classroom</a></li>
             <li><a class="dropdown-item pe-auto" href="#" data-bs-toggle="modal" data-bs-target="#classRoomJoin">Join Classroom</a></li>
             <li><a class="dropdown-item" href="#">Edit Profile</a></li>
-            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#sectionCreate">Create Section</a></li>
             <li><hr class="dropdown-divider"/></li>
             <li><a class="dropdown-item text-danger" th:href="@{/logout}">Sign out</a></li>
           </ul>
@@ -187,7 +186,7 @@
         <li class="nav-item"><a th:href="@{'/classroom/people/' + ${classroom.url}}" th:class="${active == 'people' ? 'active nav-link' : ' nav-link'}">People</a></li>
       </ul>
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-cog fs-4" aria-hidden="true"></i></a></li>
+        <li class="nav-item"><a th:href="@{'/classroom/setting/' + ${classroom.url}}" class="nav-link"><i class="fa fa-cog fs-4" aria-hidden="true"></i></a></li>
       </ul>
     </header>
   </div>

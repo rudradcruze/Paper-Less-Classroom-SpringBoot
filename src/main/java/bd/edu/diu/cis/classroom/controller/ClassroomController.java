@@ -1,14 +1,8 @@
 package bd.edu.diu.cis.classroom.controller;
 
-import bd.edu.diu.cis.classroom.model.Classroom;
-import bd.edu.diu.cis.classroom.model.ClassroomUser;
-import bd.edu.diu.cis.classroom.model.Post;
-import bd.edu.diu.cis.classroom.model.User;
-import bd.edu.diu.cis.classroom.service.ClassroomService;
-import bd.edu.diu.cis.classroom.service.ClassroomUserService;
-import bd.edu.diu.cis.classroom.service.PostService;
+import bd.edu.diu.cis.classroom.model.*;
+import bd.edu.diu.cis.classroom.service.*;
 import bd.edu.diu.cis.classroom.utils.FileService;
-import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
 import bd.edu.diu.cis.classroom.utils.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +33,9 @@ public class ClassroomController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private SectionService sectionService;
 
     @Value("${project.image}")
     private String imagePath;
@@ -118,6 +115,8 @@ public class ClassroomController {
         model.addAttribute("classroom", classroom);
         model.addAttribute("classroomUserList", classroomUserService.listUsersByClassroomUrl(url));
         model.addAttribute("active", "people");
+        model.addAttribute("headTitle", classroom.getName());
+        model.addAttribute("title", "Classroom People");
 
         return "classroom-people";
     }
@@ -146,7 +145,28 @@ public class ClassroomController {
         model.addAttribute("classroom", classroom);
         model.addAttribute("active", "stream");
         model.addAttribute("posts", posts);
+        model.addAttribute("headTitle", classroom.getName());
+        model.addAttribute("title", "Classroom Stream");
 
         return "classroom-stream";
+    }
+
+    @GetMapping("/classroom/setting/{url}")
+    public String classroomSetting(@PathVariable String url,
+                                   Model model,
+                                   Principal principal) {
+
+        if (principal == null) return "redirect:/login";
+
+        Classroom classroom = classroomService.findByUrl(url);
+        List<Section> sections = sectionService.listSectionsByClassroomUrl(url);
+
+
+        model.addAttribute("classroom", classroom);
+        model.addAttribute("sections", sections);
+        model.addAttribute("headTitle", classroom.getName());
+        model.addAttribute("title", "Classroom Setting");
+
+        return "classroom-setting";
     }
 }

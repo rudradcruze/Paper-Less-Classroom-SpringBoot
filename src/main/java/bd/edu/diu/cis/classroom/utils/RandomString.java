@@ -13,7 +13,7 @@ public class RandomString {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + (new Date().getTime())/1000
                 + "abcdefghijklmnopqrstuvxyz"
-                + "\" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\"";
+                + "\"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\"";
 
         StringBuilder sb = new StringBuilder(n);
 

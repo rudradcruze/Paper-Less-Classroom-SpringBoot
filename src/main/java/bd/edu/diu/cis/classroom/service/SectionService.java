@@ -13,7 +13,7 @@ public class SectionService {
     @Autowired
     private SectionRepository sectionRepository;
 
-    public List<Section> listSectionByClassroomUrl(String url) {
+    public List<Section> listSectionsByClassroomUrl(String url) {
         return (List<Section>) sectionRepository.findSectionsByClassroomUrl(url);
     }
 

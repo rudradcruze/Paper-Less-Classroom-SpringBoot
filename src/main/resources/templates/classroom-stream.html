@@ -20,7 +20,7 @@
                 <div class="row">
                   <div class="col-lg-10 mt-2 mx-auto">
                     <div th:if="${error}" th:replace="fregments :: alert-error"></div>
-                    <div th:if="${success}" th:replace="fregments ::  s"></div>
+                    <div th:if="${success}" th:replace="fregments ::  alert-success"></div>
                     <div class="mb-2 rounded text-body-emphasis bg-body-secondary">
                       <div class="col-lg-6 p-0 m-0 position-relative w-100" style="height: 300px;">
                         <div class="overlay overlay-2"></div>
@@ -158,7 +158,6 @@
     </main>
 
     <div th:replace="fregments :: classroom-join-modal"></div>
-    <div th:replace="fregments :: classroom-section-modal"></div>
 
     <div th:replace="fregments :: scripts"></div>
   </body>
