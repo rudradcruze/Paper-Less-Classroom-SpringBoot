@@ -34,7 +34,6 @@ public class SectionUserController {
         if (principal == null) return "redirect:/login";
 
         Section section = sectionService.getByJoinCode(inviteCode);
-        SectionUser sectionUser = sectionUserService.getByStudentEmail(principal.getName());
 
         if (section == null) {
             attributes.addFlashAttribute("error", "Wrong invitation Code! Please enter a valid invitation code");
@@ -50,6 +49,8 @@ public class SectionUserController {
             attributes.addFlashAttribute("error", "The classroom is inactive! Please contact with your teacher");
             return "redirect:/";
         }
+
+        SectionUser sectionUser = sectionUserService.getByUrlStudentEmail(section.getClassroom().getUrl(), principal.getName());
 
         if (sectionUser != null) {
             attributes.addFlashAttribute("error", "You have already join into " + sectionUser.getSection().getClassroom().getName() + " this classroom under " + sectionUser.getSection().getName() + " this section");

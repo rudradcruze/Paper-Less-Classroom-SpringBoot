@@ -28,7 +28,7 @@ public class ClassroomController {
     private UserDetailsServiceImplement userService;
 
     @Autowired
-    private ClassroomUserService classroomUserService;
+    private ClassroomTeacherService classroomTeacherService;
 
     @Autowired
     private PostService postService;
@@ -105,7 +105,20 @@ public class ClassroomController {
         Classroom classroom = classroomService.findByUrl(url);
         userAndClassroom(model, principal, session, userService);
         model.addAttribute("classroom", classroom);
-        model.addAttribute("classroomUserList", classroomUserService.listUsersByClassroomUrl(url));
+
+        List<ClassroomTeacher> classroomTeacherList = classroomTeacherService.listTeachersByClassroomUrl(url);
+
+        boolean isTeacher = false;
+        for (ClassroomTeacher classroomTeacher : classroomTeacherList) {
+            if (Objects.equals(classroomTeacher.getTeacher().getUsername(), principal.getName())) {
+                isTeacher = true;
+                break;
+            }
+            System.out.println(principal.getName() + " " + classroomTeacher.getTeacher().getUsername());
+        }
+
+        model.addAttribute("isTeacher", isTeacher);
+        model.addAttribute("classroomTeacherList", classroomTeacherList);
 
         List<Section> sectionList = classroom.getSections();
         model.addAttribute("sectionList", sectionList);
@@ -129,9 +142,9 @@ public class ClassroomController {
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
 
-        for (ClassroomTeacher cu : user.getClassroomUsers()) {
-            classroomList.add(cu.getClassroom());
-        }
+//        for (ClassroomTeacher cu : user.getClassroomUsers()) {
+//            classroomList.add(cu.getClassroom());
+//        }
         model.addAttribute("classrooms", classroomList);
     }
 

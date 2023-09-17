@@ -283,18 +283,45 @@
             </div>
 
             <div class="mb-3">
-              <label for="inviteCode" class="form-label">Section Name</label>
-              <input type="text" name="sectionName" class="form-control">
+              <label for="sectionName" class="form-label">Section Name</label>
+              <input type="text" id="sectionName" name="sectionName" class="form-control">
             </div>
 
             <div class="mb-3">
-              <label for="inviteCode" class="form-label">Meeting Link</label>
-              <input type="url" name="meetingLink" class="form-control">
+              <label for="meetingLink" class="form-label">Meeting Link</label>
+              <input type="url" name="meetingLink" id="meetingLink" class="form-control">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Create Section</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div th:fragment="classroom-teacher-modal" class="modal fade" id="teacherAdd" tabindex="-1" aria-labelledby="teacherAddModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="teacherAddLabel">Create Section</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form th:action="@{'/classroom/teacher/add/' + ${classroom.url}}" method="post">
+          <div class="modal-body">
+            <div class="mb-3">
+              <input type="text" name="classroom" th:value="${classroom.name}" disabled class="form-control user-select-none">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Teacher Email</label>
+              <input type="email" name="email" id="email" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add Teacher</button>
           </div>
         </form>
       </div>

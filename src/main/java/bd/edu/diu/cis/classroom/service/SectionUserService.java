@@ -18,5 +18,5 @@ public class SectionUserService {
         return (List<SectionUser>) sectionUserRepository.findSectionUsersBySectionClassroomUrlOrderByRegisteredDesc(url);
     }
 
-    public SectionUser getByStudentEmail(String email) { return sectionUserRepository.findSectionUsersByStudentUsername(email); }
+    public SectionUser getByUrlStudentEmail(String url, String email) { return sectionUserRepository.findSectionUsersBySectionClassroomUrlAndStudentUsername(url, email); }
 }
