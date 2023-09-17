@@ -40,14 +40,19 @@
                     <table class="table">
                       <div class="d-flex justify-content-between align-items-center mt-5 pb-3">
                         <h2 class="mb-0 pb-0">Classmates</h2>
-                        <p class="mb-0 pb-0"><span th:text="${classroomUserList.size()}"></span> students</p>
+                        <p class="mb-0 pb-0"><span th:text="${totalStudents}"></span> students</p>
                       </div>
+
                       <tbody class="table-group-divider">
-                      <tr th:each="classroomEach, index : ${classroomUserList}">
-                        <td scope="row" th:text="${index.index + 1}">1</td>
-                        <td th:text="${classroomEach.student.firstName + ' ' + classroomEach.student.lastName}"></td>
-                        <td class="text-end">Action</td>
-                      </tr>
+
+                      <div th:each="section, index : ${sectionList}">
+                        <h3 th:text="${section.name}"></h3>
+                        <tr th:each="sectionUser, index : ${section.students}">
+                          <td th:text="${index.index + 1}">1</td>
+                          <td th:text="${sectionUser.student.firstName + ' ' + sectionUser.student.lastName}"></td>
+                          <td class="text-end">Action</td>
+                        </tr>
+                      </div>
                       </tbody>
                     </table>
                   </div>

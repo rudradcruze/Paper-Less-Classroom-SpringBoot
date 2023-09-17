@@ -20,15 +20,12 @@ public class Classroom {
     private String name;
     @Column(length = 1000)
     private String description;
-    private String section;
     private String session;
     private String room;
     private String subject;
     private String url;
     private boolean activate;
-    private String inviteCode;
     private String imageName;
-    private boolean inviteCodeActivate;
     private boolean canPost;
     private String meetingLink;
     private boolean meetingLinkStatus;
@@ -38,7 +35,7 @@ public class Classroom {
     private User teacher;
 
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
-    private List<ClassroomUser> students = new ArrayList<>();
+    private List<ClassroomTeacher> students = new ArrayList<>();
 
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     private List<Section> sections = new ArrayList<>();

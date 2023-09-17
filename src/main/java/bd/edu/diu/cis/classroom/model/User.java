@@ -23,8 +23,8 @@ public class User {
     private String imageName;
     private boolean enable;
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<ClassroomUser> classroomUsers = new ArrayList<>();
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    private List<ClassroomTeacher> classroomTeachers = new ArrayList<>();
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<Classroom> classrooms = new ArrayList<>();

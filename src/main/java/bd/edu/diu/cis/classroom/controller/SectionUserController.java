@@ -62,9 +62,12 @@ public class SectionUserController {
         sectionUser.setActivate(true);
         sectionUser.setRegistered(new Date());
 
-        System.out.println(sectionUser.getRegistered());
-        System.out.println(sectionUser.getSection().getJoinCode());
-
+        try {
+            sectionUserService.save(sectionUser);
+            attributes.addFlashAttribute("success", "You have successfully join into " + section.getClassroom().getName() + " at " + section.getName() + " this section");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Internal server error!");
+        }
 
         return "redirect:/classroom/stream/" + section.getClassroom().getUrl();
     }

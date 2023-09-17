@@ -20,7 +20,6 @@ public class ClassroomService {
     public Classroom findByUrl(String url) {
         return classRoomRepository.findClassroomByUrl(url);
     }
-    public Classroom findByInviteCode(String code) {return classRoomRepository.findClassroomByInviteCode(code);}
 
     public void save(Classroom classroom) {
         classRoomRepository.save(classroom);

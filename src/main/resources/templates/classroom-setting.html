@@ -45,6 +45,7 @@
                               <h4 class="mb-0 pb-0 d-inline-block" th:text="${section.name}"></h4> . <span class="text-small text-muted" th:text="${section.status == true ? 'Active' : 'Inactive'}"></span>
                               <span class="d-block"></span>
                               <a th:href="${section.meetingLink}" class="mb-0 pb-0">https://meet.google.com/gpo-cvok-hkm</a>  . <span class="text-small text-muted" th:text="${section.meetingLinkStatus == true ? 'Active' : 'Inactive'}"></span>
+                              <p class="mb-0 pb-0">Invite Code: <span th:text="${section.joinCode}"></span></p>
                             </div>
                             <p class="mb-0"><span th:text="${section.students.size()}"></span> Students</p>
                             <div class="dropdown">

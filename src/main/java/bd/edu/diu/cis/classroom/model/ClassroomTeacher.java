@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassroomUser {
+public class ClassroomTeacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class ClassroomUser {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    private User student;
+    private User teacher;
 
     private Date registered;
     private boolean activate;

@@ -204,7 +204,7 @@
               <li th:each="classroom : ${classrooms}" th:if="${classroom.teacher.username == session.user.username}" class="rounded py-2 bg-body m-0 p-0 mb-2">
                 <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
-                  <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.section}"></p>
+                  <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.session}"></p>
                 </a>
               </li>
             </ul>
@@ -220,7 +220,7 @@
               <li th:each="classroom : ${classrooms}" th:if="${classroom.teacher.username != session.user.username}" class="rounded py-2 bg-body m-0 p-0 mb-0">
                 <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
-                  <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.section}"></p>
+                  <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.session}"></p>
                 </a>
               </li>
             </ul>

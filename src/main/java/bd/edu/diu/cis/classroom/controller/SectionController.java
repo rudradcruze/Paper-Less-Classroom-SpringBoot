@@ -45,20 +45,21 @@ public class SectionController {
             return "redirect:/classroom/stream/" + url;
         }
 
-        Classroom classroom = classroomService.findByUrl(url);
-
         // sending invite code
         String inviteCode = RandomString.getAlphaNumericString(10);
-        while (classroomService.findByInviteCode(inviteCode) != null) {
+        while (sectionService.getByJoinCode(inviteCode) != null) {
             inviteCode = RandomString.getAlphaNumericString(10);
         }
 
         Section section = new Section();
 
-        section.setClassroom(classroom);
+        section.setClassroom(classroomService.findByUrl(url));
         section.setStatus(true);
-        section.setMeetingLink(meetingLink);
-        section.setMeetingLinkStatus(true);
+
+        if (meetingLink != null) {
+            section.setMeetingLink(meetingLink);
+            section.setMeetingLinkStatus(true);
+        }
         section.setJoinCode(inviteCode);
         section.setName(sectionName);
 

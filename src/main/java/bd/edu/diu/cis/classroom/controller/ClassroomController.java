@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -41,10 +40,11 @@ public class ClassroomController {
     private String imagePath;
 
     @GetMapping("/classroom/new")
-    public String newClassroom(Model model, Principal principal, RedirectAttributes attributes) {
+    public String newClassroom(Model model, Principal principal, HttpSession session) {
         if (principal == null)
             return "redirect:/login";
 
+        userAndClassroom(model, principal, session, userService);
         model.addAttribute("classroom", new Classroom());
         model.addAttribute("title", "New Classroom");
         model.addAttribute("headTitle", "Create New Classroom");
@@ -87,15 +87,7 @@ public class ClassroomController {
         }
         classroom.setUrl(classroomUrl);
 
-        // sending invite code
-        String inviteCode = RandomString.getAlphaNumericString(6);
-        while (classroomService.findByInviteCode(inviteCode) != null) {
-            inviteCode = RandomString.getAlphaNumericString(6);
-        }
-        classroom.setInviteCode(inviteCode);
-
         classroom.setActivate(true);
-        classroom.setInviteCodeActivate(true);
         classroom.setCanPost(true);
         classroom.setTeacher(userService.getByUserEmail(principal.getName()));
 
@@ -114,6 +106,17 @@ public class ClassroomController {
         userAndClassroom(model, principal, session, userService);
         model.addAttribute("classroom", classroom);
         model.addAttribute("classroomUserList", classroomUserService.listUsersByClassroomUrl(url));
+
+        List<Section> sectionList = classroom.getSections();
+        model.addAttribute("sectionList", sectionList);
+
+        int students = 0;
+
+        for (Section counting : sectionList) {
+            students += counting.getStudents().size();
+        }
+
+        model.addAttribute("totalStudents", students);
         model.addAttribute("active", "people");
         model.addAttribute("headTitle", classroom.getName());
         model.addAttribute("title", "Classroom People");
@@ -126,7 +129,7 @@ public class ClassroomController {
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
 
-        for (ClassroomUser cu : user.getClassroomUsers()) {
+        for (ClassroomTeacher cu : user.getClassroomUsers()) {
             classroomList.add(cu.getClassroom());
         }
         model.addAttribute("classrooms", classroomList);
@@ -154,13 +157,14 @@ public class ClassroomController {
     @GetMapping("/classroom/setting/{url}")
     public String classroomSetting(@PathVariable String url,
                                    Model model,
-                                   Principal principal) {
+                                   Principal principal,
+                                   HttpSession session) {
 
         if (principal == null) return "redirect:/login";
 
         Classroom classroom = classroomService.findByUrl(url);
         List<Section> sections = sectionService.listSectionsByClassroomUrl(url);
-
+        userAndClassroom(model, principal, session, userService);
 
         model.addAttribute("classroom", classroom);
         model.addAttribute("sections", sections);
