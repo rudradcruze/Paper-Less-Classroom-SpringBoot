@@ -18,8 +18,12 @@ public class ClassroomTeacherService {
         return (List<ClassroomTeacher>) classroomUserRepository.findClassroomTeachersByClassroomUrlOrderByRegisteredDesc(url);
     }
 
-    public ClassroomTeacher getByTeacherUserName(String url, String name) {
+    public ClassroomTeacher getByTeacherUserNameAndClassroomUrl(String url, String name) {
         return classroomUserRepository.findClassroomTeacherByClassroomUrlAndTeacherUsername(url, name);
+    }
+
+    public List<ClassroomTeacher> getAllTeacherRequestByTeacherUserName(String email) {
+        return classroomUserRepository.findClassroomTeachersByTeacherUsername(email);
     }
 
 }
