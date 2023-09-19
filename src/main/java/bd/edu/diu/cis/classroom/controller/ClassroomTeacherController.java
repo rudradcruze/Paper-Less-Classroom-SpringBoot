@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class ClassroomTeacherController {
@@ -88,5 +89,31 @@ public class ClassroomTeacherController {
         model.addAttribute("classroomTeacherRequest", classroomTeacherRequest);
 
         return "teacher-request";
+    }
+
+    @GetMapping("/classroom/teacher/request/update")
+    public String updateTeacherRequest(RedirectAttributes attributes,
+                                       @RequestParam("url") String url,
+                                       @RequestParam("status") String status,
+                                       Principal principal) {
+
+        if (principal == null) return "redirect:/login";
+
+        ClassroomTeacher classroomTeacher = classroomTeacherService.getByTeacherUserNameAndClassroomUrl(url, principal.getName());
+
+        if (Objects.equals(status, "ACCEPT")) {
+            classroomTeacher.setStatus("ACCEPT");
+            attributes.addFlashAttribute("success", "You are successfully joined into the classroom");
+            classroomTeacherService.save(classroomTeacher);
+            return "redirect:/classroom/stream/" + url;
+        } else if (Objects.equals(status, "REJECT")){
+            classroomTeacher.setStatus("REJECT");
+            attributes.addFlashAttribute("warning", "You are rejected the classroom teacher invitation");
+            classroomTeacherService.save(classroomTeacher);
+        } else {
+            attributes.addFlashAttribute("error", "Error for bad request.");
+        }
+
+        return "redirect:/classroom/teacher/request";
     }
 }

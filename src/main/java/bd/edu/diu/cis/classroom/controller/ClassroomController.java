@@ -144,7 +144,7 @@ public class ClassroomController {
         List<Classroom> classroomList = user.getClassrooms();
 
         for (ClassroomTeacher cu : user.getClassroomTeachers()) {
-            if (Objects.equals(cu.getStatus(), "ACCEPTED"))
+            if (Objects.equals(cu.getStatus(), "ACCEPT"))
                 classroomList.add(cu.getClassroom());
         }
 

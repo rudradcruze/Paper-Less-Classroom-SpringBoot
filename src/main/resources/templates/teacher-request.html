@@ -19,6 +19,7 @@
                   <div class="col-lg-7 mt-5 mx-auto">
                     <div th:if="${error}" th:replace="fregments :: alert-error"></div>
                     <div th:if="${success}" th:replace="fregments ::  alert-success"></div>
+                    <div th:if="${warning}" th:replace="fregments ::  alert-warning"></div>
                     <div class="section">
                       <!-- Title -->
                       <div class="d-flex justify-content-between align-items-center pb-3">
@@ -37,8 +38,8 @@
                           <p class="mb-1" th:if="${request.classroom.description}">Description: <span th:text="${request.classroom.description}"></span></p>
                           <p class="mb-1">Status: <span class="fst-italic" th:text="${request.status}"></span></p>
                           <div class="buttons mt-3" th:if="${request.status == 'PENDING'}">
-                            <a class="btn btn-success me-2" href="#">Accept</a>
-                            <a class="btn btn-danger" href="#">Reject</a>
+                            <a class="btn btn-success me-2" th:href="@{'/classroom/teacher/request/update?url=' + ${request.classroom.url} + '&status=ACCEPT'}">Accept</a>
+                            <a class="btn btn-danger" th:href="@{'/classroom/teacher/request/update?url=' + ${request.classroom.url} + '&status=REJECT'}">Reject</a>
                           </div>
                         </div>
                       </div>
