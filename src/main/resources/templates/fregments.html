@@ -201,7 +201,7 @@
         <li class="nav-item"><a href="#" class="nav-link">Classwork</a></li>
         <li class="nav-item"><a th:href="@{'/classroom/people/' + ${classroom.url}}" th:class="${active == 'people' ? 'active nav-link' : ' nav-link'}">People</a></li>
       </ul>
-      <ul class="nav nav-pills">
+      <ul th:if="${isTeacher}" class="nav nav-pills">
         <li class="nav-item"><a th:href="@{'/classroom/setting/' + ${classroom.url}}" class="nav-link"><i class="fa fa-cog fs-4" aria-hidden="true"></i></a></li>
       </ul>
     </header>

@@ -52,7 +52,7 @@
                     </div>
 
                     <!--        Post Something            -->
-                    <div th:if="${(!classroom.canPost && classroom.teacher.username == session.user.username) || classroom.teacher.username == session.user.username}" class="accordion mt-2 py-2" id="accordionExample2">
+                    <div th:if="${!classroom.canPost || classroom.teacher.username == session.user.username || isTeacher}" class="accordion mt-2 py-2" id="accordionExample2">
                       <div class="accordion-item">
                         <h2 class="accordion-header">
                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoThree" aria-expanded="false" aria-controls="collapseTwoThree">

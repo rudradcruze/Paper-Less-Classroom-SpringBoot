@@ -115,7 +115,6 @@ public class ClassroomController {
                 isTeacher = true;
                 break;
             }
-            System.out.println(principal.getName() + " " + classroomTeacher.getTeacher().getUsername());
         }
 
         model.addAttribute("isTeacher", isTeacher);
@@ -162,6 +161,21 @@ public class ClassroomController {
         model.addAttribute("clStudents", clStudents);
     }
 
+    boolean isTeacher(Principal principal, String url, UserDetailsServiceImplement userService) {
+
+        List<ClassroomTeacher> classroomTeacherList = classroomTeacherService.listTeachersByClassroomUrl(url);
+        boolean teacher = false;
+
+        User user = userService.getByUserEmail(principal.getName());
+        for (ClassroomTeacher classroomTeacher : classroomTeacherList) {
+            if (classroomTeacher.getTeacher() == user || classroomTeacher.getClassroom().getTeacher() == user) {
+                teacher = true;
+                break;
+            }
+        }
+        return teacher;
+    }
+
     @GetMapping("/classroom/stream/{url}")
     public String classroomStream(@PathVariable String url,
                                   Principal principal,
@@ -172,6 +186,10 @@ public class ClassroomController {
         Classroom classroom = classroomService.findByUrl(url);
         List<Post> posts = postService.getAllByClassroomUrlDateDesc(url);
         userAndClassroom(model, principal, session, userService);
+
+        boolean teacher = isTeacher(principal, url, userService);
+
+        model.addAttribute("isTeacher", teacher);
         model.addAttribute("classroom", classroom);
         model.addAttribute("active", "stream");
         model.addAttribute("posts", posts);

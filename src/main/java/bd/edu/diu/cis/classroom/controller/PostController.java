@@ -1,9 +1,11 @@
 package bd.edu.diu.cis.classroom.controller;
 
 import bd.edu.diu.cis.classroom.model.Classroom;
+import bd.edu.diu.cis.classroom.model.ClassroomTeacher;
 import bd.edu.diu.cis.classroom.model.Post;
 import bd.edu.diu.cis.classroom.model.User;
 import bd.edu.diu.cis.classroom.service.ClassroomService;
+import bd.edu.diu.cis.classroom.service.ClassroomTeacherService;
 import bd.edu.diu.cis.classroom.service.PostService;
 import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
 import bd.edu.diu.cis.classroom.utils.FileService;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -35,8 +38,26 @@ public class PostController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private ClassroomTeacherService classroomTeacherService;
+
     @Value("${project.file}")
     private String contentPath;
+
+    boolean isTeacher(Principal principal, String url, UserDetailsServiceImplement userService) {
+
+        List<ClassroomTeacher> classroomTeacherList = classroomTeacherService.listTeachersByClassroomUrl(url);
+        boolean teacher = false;
+
+        User user = userService.getByUserEmail(principal.getName());
+        for (ClassroomTeacher classroomTeacher : classroomTeacherList) {
+            if (classroomTeacher.getTeacher() == user || classroomTeacher.getClassroom().getTeacher() == user) {
+                teacher = true;
+                break;
+            }
+        }
+        return teacher;
+    }
 
     @PostMapping("/classroom/post/{url}")
     public String classroomPost(@PathVariable String url,
@@ -55,7 +76,9 @@ public class PostController {
         Post post = new Post();
         User user = userService.getByUserEmail(principal.getName());
 
-        if (!classroom.isCanPost() && !Objects.equals(classroom.getTeacher().getUsername(), user.getUsername())) {
+        boolean teacher = isTeacher(principal, url, userService);
+
+        if (!classroom.isCanPost() && !teacher && !Objects.equals(classroom.getTeacher().getUsername(), user.getUsername())) {
             attributes.addFlashAttribute("error", "Post is off or only teacher can post into this classroom");
             return "redirect:/classroom/stream/" + url;
         }
