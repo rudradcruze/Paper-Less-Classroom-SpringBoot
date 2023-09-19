@@ -201,7 +201,7 @@
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li th:each="classroom : ${classrooms}" th:if="${classroom.teacher.username == session.user.username}" class="rounded py-2 bg-body m-0 p-0 mb-2">
+              <li th:each="classroom : ${clTeacher}" class="rounded py-2 bg-body m-0 p-0 mb-2">
                 <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
                   <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.session}"></p>
@@ -217,7 +217,7 @@
           </button>
           <div class="collapse show" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li th:each="classroom : ${classrooms}" th:if="${classroom.teacher.username != session.user.username}" class="rounded py-2 bg-body m-0 p-0 mb-0">
+              <li th:each="classroom : ${clStudents}" class="rounded py-2 bg-body m-0 p-0 mb-0">
                 <a th:href="@{'/classroom/stream/' + ${classroom.url}}" class="link-body-emphasis text-decoration-none rounded m-0 p-0">
                   <p class="ms-4 ps-1 rounded pb-0 mb-0" th:text="${classroom.name}"></p>
                   <p class="ms-4 ps-1 text-muted rounded pb-0 mb-0" th:text="${classroom.session}"></p>
@@ -233,6 +233,7 @@
           </button>
           <div class="collapse" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a th:href="@{/classroom/teacher/request}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Teacher Request</a></li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Question Bank</a></li>
             </ul>
           </div>

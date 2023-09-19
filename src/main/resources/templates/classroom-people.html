@@ -29,18 +29,24 @@
                           <li class="list-group-item"><p class="mb-0 pb-0 me-2">1 teacher<span></span></p></li>
                         </ul>
                       </div>
+
+                      <div class="border-top border-2 rounded"></div>
+
+                      <div class="d-flex justify-content-between mt-2">
+                        <p th:text="${classroom.teacher.firstName + ' ' + classroom.teacher.lastName}"></p>
+                        <p class="text-end">Owner</p>
+                      </div>
+
                       <tbody class="table-group-divider">
-                      <tr>
-                        <td th:text="${classroom.teacher.firstName + ' ' + classroom.teacher.lastName}"></td>
-                        <td class="text-end">Owner</td>
-                      </tr>
-                      <tr th:each="cteacher, index : ${classroomTeacherList}">
-                        <td scope="row" th:text="${index.index + 1}"></td>
-                        <td th:text="${cteacher.teacher.firstName + ' ' + cteacher.teacher.lastName}"></td>
-                        <td th:if="${classroom.teacher.username == cteacher.teacher.username}" class="text-end">Action</td>
-                      </tr>
+                        <tr th:each="cteacher, index : ${classroomTeacherList}">
+                          <td th:text="${index.index + 1}"></td>
+                          <td th:text="${cteacher.teacher.firstName + ' ' + cteacher.teacher.lastName}"></td>
+                          <td th:text="${cteacher.status}"></td>
+                          <td th:if="${classroom.teacher.username == session.user.username}" class="text-end">Action</td>
+                        </tr>
                       </tbody>
                     </table>
+
                     <table class="table">
                       <div class="d-flex justify-content-between align-items-center mt-5 pb-3">
                         <h2 class="mb-0 pb-0">Classmates</h2>
@@ -49,14 +55,14 @@
 
                       <tbody class="table-group-divider">
 
-                      <div th:each="section, index : ${sectionList}">
-                        <h3 th:text="${section.name}"></h3>
-                        <tr th:each="sectionUser, index : ${section.students}">
-                          <td th:text="${index.index + 1}">1</td>
-                          <td th:text="${sectionUser.student.firstName + ' ' + sectionUser.student.lastName}"></td>
-                          <td th:if="${isTeacher == true || session.user.username == classroom.teacher.username}" class="text-end">Action</td>
-                        </tr>
-                      </div>
+                        <div th:each="section, index : ${sectionList}">
+                          <h3 th:text="${section.name}"></h3>
+                          <tr th:each="sectionUser, index : ${section.students}">
+                            <td th:text="${index.index + 1}">1</td>
+                            <td th:text="${sectionUser.student.firstName + ' ' + sectionUser.student.lastName}"></td>
+                            <td th:if="${isTeacher == true || session.user.username == classroom.teacher.username}" class="text-end">Action</td>
+                          </tr>
+                        </div>
                       </tbody>
                     </table>
                   </div>

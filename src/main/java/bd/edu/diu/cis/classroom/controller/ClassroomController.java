@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -142,10 +143,23 @@ public class ClassroomController {
         session.setAttribute("user", user);
         List<Classroom> classroomList = user.getClassrooms();
 
-//        for (ClassroomTeacher cu : user.getClassroomUsers()) {
-//            classroomList.add(cu.getClassroom());
-//        }
+        for (ClassroomTeacher cu : user.getClassroomTeachers()) {
+            if (Objects.equals(cu.getStatus(), "ACCEPTED"))
+                classroomList.add(cu.getClassroom());
+        }
+
+        List<Classroom> clTeacher = new ArrayList<Classroom>(classroomList);
+
+        List<Classroom> clStudents = new ArrayList<Classroom>();
+
+        for (SectionUser su : user.getSectionStudents()) {
+            classroomList.add(su.getSection().getClassroom());
+            clStudents.add(su.getSection().getClassroom());
+        }
+
         model.addAttribute("classrooms", classroomList);
+        model.addAttribute("clTeacher", clTeacher);
+        model.addAttribute("clStudents", clStudents);
     }
 
     @GetMapping("/classroom/stream/{url}")

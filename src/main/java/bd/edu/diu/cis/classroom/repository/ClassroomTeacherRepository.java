@@ -10,5 +10,5 @@ import java.util.List;
 public interface ClassroomTeacherRepository extends CrudRepository<ClassroomTeacher, Long> {
     List<ClassroomTeacher> findClassroomTeachersByClassroomUrlOrderByRegisteredDesc(String url);
     ClassroomTeacher findClassroomTeacherByClassroomUrlAndTeacherUsername(String url, String email);
-    List<ClassroomTeacher> findClassroomTeachersByTeacherUsername(String email);
+    List<ClassroomTeacher> findClassroomTeachersByTeacherUsernameOrderByRegisteredDesc(String email);
 }

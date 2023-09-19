@@ -26,5 +26,5 @@ public class ClassroomTeacher {
     private User teacher;
 
     private Date registered;
-    private boolean activate;
+    private String status;
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ClassroomTeacherController {
             classroomTeacher = new ClassroomTeacher();
 
         classroomTeacher.setTeacher(invitedTeacher);
-        classroomTeacher.setActivate(false);
+        classroomTeacher.setStatus("PENDING");
         classroomTeacher.setClassroom(classroomService.findByUrl(url));
         classroomTeacher.setRegistered(new Date());
 
@@ -77,11 +78,13 @@ public class ClassroomTeacherController {
 
     @GetMapping("/classroom/teacher/request")
     public String classroomRequest(Principal principal,
-                                   Model model) {
+                                   Model model,
+                                   HttpSession session) {
 
         if (principal == null) return "redirect:/login";
 
         List<ClassroomTeacher> classroomTeacherRequest = classroomTeacherService.getAllTeacherRequestByTeacherUserName(principal.getName());
+        ClassroomController.userAndClassroom(model, principal, session, userService);
         model.addAttribute("classroomTeacherRequest", classroomTeacherRequest);
 
         return "teacher-request";

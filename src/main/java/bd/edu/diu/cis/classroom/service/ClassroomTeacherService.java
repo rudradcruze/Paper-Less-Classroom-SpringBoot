@@ -23,7 +23,7 @@ public class ClassroomTeacherService {
     }
 
     public List<ClassroomTeacher> getAllTeacherRequestByTeacherUserName(String email) {
-        return classroomUserRepository.findClassroomTeachersByTeacherUsername(email);
+        return classroomUserRepository.findClassroomTeachersByTeacherUsernameOrderByRegisteredDesc(email);
     }
 
 }
