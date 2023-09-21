@@ -66,11 +66,14 @@
                         </h2>
                         <div id="collapseTwoThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample2">
                           <div class="accordion-body">
-                            <form th:action="@{'/classroom/post/' + ${classroom.url} + '?type=post'}" enctype="multipart/form-data" method="post">
-                              <textarea class="content-richText form-control p-3" name="content" style="height: 150px;"></textarea>
+                            <form th:action="@{'/classroom/post/' + ${classroom.url} + '?type=post'}" th:object="${post}" enctype="multipart/form-data" method="post">
+                              <textarea class="content-richText form-control p-3" name="content" th:field="*{content}" style="height: 150px;"></textarea>
                               <div class="mt-3">
                                 <input class="form-control" name="file" type="file" id="formFile">
                               </div>
+                              <select class="form-select mt-3" name="sections" multiple th:field="*{sections}">
+                                <option th:each="section : ${allSections}" th:value="${section.id}" th:text="${section.name}"></option>
+                              </select>
                               <button type="submit" class="btn btn-primary mt-3 px-4">Post</button>
                             </form>
                           </div>

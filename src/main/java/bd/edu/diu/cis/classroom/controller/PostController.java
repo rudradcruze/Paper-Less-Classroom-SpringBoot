@@ -1,9 +1,6 @@
 package bd.edu.diu.cis.classroom.controller;
 
-import bd.edu.diu.cis.classroom.model.Classroom;
-import bd.edu.diu.cis.classroom.model.ClassroomTeacher;
-import bd.edu.diu.cis.classroom.model.Post;
-import bd.edu.diu.cis.classroom.model.User;
+import bd.edu.diu.cis.classroom.model.*;
 import bd.edu.diu.cis.classroom.service.ClassroomService;
 import bd.edu.diu.cis.classroom.service.ClassroomTeacherService;
 import bd.edu.diu.cis.classroom.service.PostService;
@@ -12,6 +9,7 @@ import bd.edu.diu.cis.classroom.utils.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,10 +58,10 @@ public class PostController {
     }
 
     @PostMapping("/classroom/post/{url}")
-    public String classroomPost(@PathVariable String url,
+    public String classroomPost(@ModelAttribute Post post,
+                                @PathVariable String url,
                                 @RequestParam(value = "type") String type,
                                 @RequestParam(value = "title", required = false) String title,
-                                @RequestParam(value = "content") String content,
                                 @RequestParam(value = "file", required = false) MultipartFile file,
                                 Principal principal, RedirectAttributes attributes) {
 
@@ -72,8 +70,6 @@ public class PostController {
         // find the classroom
         Classroom classroom = classroomService.findByUrl(url);
 
-
-        Post post = new Post();
         User user = userService.getByUserEmail(principal.getName());
 
         boolean teacher = isTeacher(principal, url, userService);
@@ -101,7 +97,6 @@ public class PostController {
         post.setClassroom(classroom);
         post.setUser(user);
         post.setPostDate(new Date());
-        post.setContent(content);
         post.setStatus(true);
 
         String fileName;
@@ -112,8 +107,12 @@ public class PostController {
             post.setFileName(fileName);
         }
 
-        postService.save(post);
-        attributes.addFlashAttribute("success", "You have successfully created the " + type);
+        try {
+            postService.save(post);
+            attributes.addFlashAttribute("success", "You have successfully created the " + type);
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Internal Server Error!");
+        }
 
         return "redirect:/classroom/stream/" + url;
     }

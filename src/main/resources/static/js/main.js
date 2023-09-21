@@ -29,6 +29,8 @@ $(window).on("load", function() {
     });
 });
 
+    new MultiSelectTag('countries')  // id
+
 
     function clickToInviteCode(copyText) {
 

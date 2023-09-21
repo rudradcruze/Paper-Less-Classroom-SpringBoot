@@ -181,7 +181,7 @@ public class ClassroomController {
                                   Principal principal,
                                   Model model, HttpSession session) {
 
-        if (principal == null) return "redirect:/";
+        if (principal == null) return "redirect:/login";
 
         Classroom classroom = classroomService.findByUrl(url);
         List<Post> posts = postService.getAllByClassroomUrlDateDesc(url);
@@ -189,7 +189,13 @@ public class ClassroomController {
 
         boolean teacher = isTeacher(principal, url, userService);
 
+        List<Section> sectionList = sectionService.listSectionsByClassroomUrl(url);
+
+        Post post = new Post();
+
         model.addAttribute("isTeacher", teacher);
+        model.addAttribute("post", post);
+        model.addAttribute("allSections", sectionList);
         model.addAttribute("classroom", classroom);
         model.addAttribute("active", "stream");
         model.addAttribute("posts", posts);
