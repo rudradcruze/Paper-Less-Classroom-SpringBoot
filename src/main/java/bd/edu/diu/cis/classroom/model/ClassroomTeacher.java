@@ -22,7 +22,7 @@ public class ClassroomTeacher {
     private Classroom classroom;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "teacher_id")
     private User teacher;
 
     private Date registered;

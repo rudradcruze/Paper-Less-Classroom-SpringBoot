@@ -56,12 +56,17 @@
                       <tbody class="table-group-divider">
 
                         <div th:each="section, index : ${sectionList}">
-                          <h3 th:text="${section.name}"></h3>
-                          <tr th:each="sectionUser, index : ${section.students}">
-                            <td th:text="${index.index + 1}">1</td>
-                            <td th:text="${sectionUser.student.firstName + ' ' + sectionUser.student.lastName}"></td>
-                            <td th:if="${isTeacher == true || session.user.username == classroom.teacher.username}" class="text-end">Action</td>
-                          </tr>
+                          <div th:if="${section.students.size() > 0}">
+                            <div class="d-flex justify-content-between mb-0 pb-0">
+                              <h3 th:text="${section.name}"></h3>
+                              <p th:text="${section.students.size() + ' students'}"></p>
+                            </div>
+                            <tr th:each="sectionUser, index : ${section.students}">
+                              <td th:text="${index.index + 1}">1</td>
+                              <td th:text="${sectionUser.student.firstName + ' ' + sectionUser.student.lastName}"></td>
+                              <td th:if="${isTeacher == true || session.user.username == classroom.teacher.username}" class="text-end">Action</td>
+                            </tr>
+                          </div>
                         </div>
                       </tbody>
                     </table>

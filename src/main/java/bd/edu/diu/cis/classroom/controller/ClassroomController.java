@@ -37,6 +37,9 @@ public class ClassroomController {
     @Autowired
     private SectionService sectionService;
 
+    @Autowired
+    private SectionUserService sectionUserService;
+
     @Value("${project.image}")
     private String imagePath;
 
@@ -185,9 +188,17 @@ public class ClassroomController {
 
         Classroom classroom = classroomService.findByUrl(url);
         List<Post> posts = postService.getAllByClassroomUrlDateDesc(url);
+        User user = userService.getByUserEmail(principal.getName());
+
+        SectionUser sectionUser = sectionUserService.getByUrlStudentEmail(url, user.getUsername());
+
         userAndClassroom(model, principal, session, userService);
 
         boolean teacher = isTeacher(principal, url, userService);
+        System.out.println(user.getUsername() + " " + teacher);
+
+        if (!teacher)
+            posts.removeIf(postEach -> !postEach.getSections().contains(sectionUser.getSection()));
 
         List<Section> sectionList = sectionService.listSectionsByClassroomUrl(url);
 

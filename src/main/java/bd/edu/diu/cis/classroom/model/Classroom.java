@@ -35,7 +35,7 @@ public class Classroom {
     private User teacher;
 
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
-    private List<ClassroomTeacher> students = new ArrayList<>();
+    private List<ClassroomTeacher> teachers = new ArrayList<>();
 
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     private List<Section> sections = new ArrayList<>();
