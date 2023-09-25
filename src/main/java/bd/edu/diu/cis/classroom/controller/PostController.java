@@ -1,10 +1,7 @@
 package bd.edu.diu.cis.classroom.controller;
 
 import bd.edu.diu.cis.classroom.model.*;
-import bd.edu.diu.cis.classroom.service.ClassroomService;
-import bd.edu.diu.cis.classroom.service.ClassroomTeacherService;
-import bd.edu.diu.cis.classroom.service.PostService;
-import bd.edu.diu.cis.classroom.service.UserDetailsServiceImplement;
+import bd.edu.diu.cis.classroom.service.*;
 import bd.edu.diu.cis.classroom.utils.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +36,9 @@ public class PostController {
     @Autowired
     private ClassroomTeacherService classroomTeacherService;
 
+    @Autowired
+    private SectionService sectionService;
+
     @Value("${project.file}")
     private String contentPath;
 
@@ -63,6 +63,7 @@ public class PostController {
                                 @RequestParam(value = "type") String type,
                                 @RequestParam(value = "title", required = false) String title,
                                 @RequestParam(value = "file", required = false) MultipartFile file,
+                                @RequestParam(value = "sections", required = false) List<Long> sections,
                                 Principal principal, RedirectAttributes attributes) {
 
         if (principal == null) return "redirect:/login";
@@ -78,6 +79,14 @@ public class PostController {
             attributes.addFlashAttribute("error", "Post is off or only teacher can post into this classroom");
             return "redirect:/classroom/stream/" + url;
         }
+
+        if (sections == null) {
+            attributes.addFlashAttribute("error", "Section cannot be null, you need to choose a section");
+            return "redirect:/classroom/stream/" + url;
+        }
+
+        List<Section> selectedSections = sectionService.getSectionsByIds(sections);
+        post.setSections(selectedSections);
 
         // Identifying the post type
         if (Objects.equals(type, "post"))

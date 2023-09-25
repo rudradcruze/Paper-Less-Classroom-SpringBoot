@@ -64,6 +64,9 @@ public class AuthController {
                                   Model model,
                                   RedirectAttributes attributes,
                                   @RequestParam("confirmPassword") String confirmPassword) {
+
+        model.addAttribute("logcss", "logcss");
+
         try {
             if (result.hasErrors()) {
                 model.addAttribute("user", user);
@@ -125,7 +128,6 @@ public class AuthController {
         } catch (Exception e) {
             model.addAttribute("error", "Server have ran some problems");
             model.addAttribute("user", user);
-            System.out.println(e);
         }
         return "register";
     }

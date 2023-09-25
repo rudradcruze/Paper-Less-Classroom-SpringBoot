@@ -1,6 +1,5 @@
 package bd.edu.diu.cis.classroom.controller;
 
-import bd.edu.diu.cis.classroom.model.Classroom;
 import bd.edu.diu.cis.classroom.model.Section;
 import bd.edu.diu.cis.classroom.service.ClassroomService;
 import bd.edu.diu.cis.classroom.service.SectionService;
@@ -46,9 +45,9 @@ public class SectionController {
         }
 
         // sending invite code
-        String inviteCode = RandomString.getAlphaNumericString(10);
+        String inviteCode = RandomString.getAlphaNumericString(10, true);
         while (sectionService.getByJoinCode(inviteCode) != null) {
-            inviteCode = RandomString.getAlphaNumericString(10);
+            inviteCode = RandomString.getAlphaNumericString(10, true);
         }
 
         Section section = new Section();
@@ -56,10 +55,13 @@ public class SectionController {
         section.setClassroom(classroomService.findByUrl(url));
         section.setStatus(true);
 
-        if (meetingLink != null) {
+        if (!meetingLink.isBlank() || !meetingLink.isEmpty()) {
             section.setMeetingLink(meetingLink);
             section.setMeetingLinkStatus(true);
         }
+        else
+            section.setMeetingLinkStatus(false);
+
         section.setJoinCode(inviteCode);
         section.setName(sectionName);
 

@@ -46,3 +46,11 @@ $(window).on("load", function() {
         console.log(copyText.value);
     }
 
+    function toggleCheckboxes() {
+        var checkboxes = document.getElementsByName("sections");
+        var selectAllCheckbox = document.getElementById("selectAll");
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = selectAllCheckbox.checked;
+        }
+    }

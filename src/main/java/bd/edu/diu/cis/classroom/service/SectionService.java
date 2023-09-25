@@ -13,6 +13,10 @@ public class SectionService {
     @Autowired
     private SectionRepository sectionRepository;
 
+    public List<Section> getSectionsByIds(List<Long> sectionIds) {
+        return sectionRepository.findAllByIdIn(sectionIds);
+    }
+
     public List<Section> listSectionsByClassroomUrl(String url) {
         return (List<Section>) sectionRepository.findSectionsByClassroomUrl(url);
     }

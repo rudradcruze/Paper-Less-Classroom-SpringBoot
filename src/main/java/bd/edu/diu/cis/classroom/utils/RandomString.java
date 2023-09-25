@@ -9,11 +9,14 @@ public class RandomString {
         return randomUUID.toString().replaceAll("_", "").replaceAll("-", "").replaceAll(":", "");
     }
 
-    public static String getAlphaNumericString(int n) {
+    public static String getAlphaNumericString(int n, boolean isSpecial) {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + (new Date().getTime())/1000
-                + "abcdefghijklmnopqrstuvxyz"
-                + "\"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\"";
+                + "abcdefghijklmnopqrstuvxyz";
+
+        if (isSpecial)
+            AlphaNumericString = AlphaNumericString + "\"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\"";
+//                + "\"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\"";
 
         StringBuilder sb = new StringBuilder(n);
 

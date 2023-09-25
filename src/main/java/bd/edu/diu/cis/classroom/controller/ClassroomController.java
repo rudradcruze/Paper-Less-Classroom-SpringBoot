@@ -75,7 +75,6 @@ public class ClassroomController {
         if (Objects.equals(fileName, "not image")) {
             model.addAttribute("error", "Upload a valid image file, supported extension: (jpg, png, jpeg, gif)");
             model.addAttribute("classroom", classroom);
-
             return "classroom-new";
         }
 
@@ -85,9 +84,9 @@ public class ClassroomController {
         classroom.setImageName(fileName);
 
         // sending classroom url
-        String classroomUrl = RandomString.getAlphaNumericString(20);
+        String classroomUrl = RandomString.getAlphaNumericString(20, false);
         while (classroomService.findByUrl(classroomUrl) != null) {
-            classroomUrl = RandomString.getAlphaNumericString(20);
+            classroomUrl = RandomString.getAlphaNumericString(20, false);
         }
         classroom.setUrl(classroomUrl);
 
@@ -132,6 +131,9 @@ public class ClassroomController {
             students += counting.getStudents().size();
         }
 
+        boolean teacher = isTeacher(principal, url, userService, classroom);
+
+        model.addAttribute("isTeacher", teacher);
         model.addAttribute("totalStudents", students);
         model.addAttribute("active", "people");
         model.addAttribute("headTitle", classroom.getName());
@@ -164,14 +166,19 @@ public class ClassroomController {
         model.addAttribute("clStudents", clStudents);
     }
 
-    boolean isTeacher(Principal principal, String url, UserDetailsServiceImplement userService) {
+    boolean isTeacher(Principal principal, String url, UserDetailsServiceImplement userService, Classroom classroom) {
 
         List<ClassroomTeacher> classroomTeacherList = classroomTeacherService.listTeachersByClassroomUrl(url);
         boolean teacher = false;
 
         User user = userService.getByUserEmail(principal.getName());
+
+        if (Objects.equals(classroom.getTeacher().getUsername(), user.getUsername())) {
+            return true;
+        }
+
         for (ClassroomTeacher classroomTeacher : classroomTeacherList) {
-            if (classroomTeacher.getTeacher() == user || classroomTeacher.getClassroom().getTeacher() == user) {
+            if (Objects.equals(classroomTeacher.getTeacher().getUsername(), user.getUsername())) {
                 teacher = true;
                 break;
             }
@@ -194,8 +201,7 @@ public class ClassroomController {
 
         userAndClassroom(model, principal, session, userService);
 
-        boolean teacher = isTeacher(principal, url, userService);
-        System.out.println(user.getUsername() + " " + teacher);
+        boolean teacher = isTeacher(principal, url, userService, classroom);
 
         if (!teacher)
             posts.removeIf(postEach -> !postEach.getSections().contains(sectionUser.getSection()));
