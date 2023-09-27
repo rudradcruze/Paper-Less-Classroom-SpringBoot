@@ -28,6 +28,7 @@
                         <div class="position-absolute start-0 bottom-0 p-4">
                           <h1 class="display-6 text-white" th:text="${classroom.name}"></h1>
                           <p th:if="${classroom.session}" class="p-0 mb-0 text-white" th:text="${classroom.session}"></p>
+                          <a class="mb-0 btn btn-light mt-2" th:if="${classroom.isMeetingLinkStatus()}" target="_blank" title="Meeting Link" th:href="${classroom.meetingLink}" th:text="${classroom.meetingLink}"></a>
                         </div>
                       </div>
                     </div>
@@ -73,11 +74,13 @@
                               </div>
 
                               <div class="mt-3">
-                                <label>Select Sections:</label><br>
-                                <input type="checkbox" checked id="selectAll" onclick="toggleCheckboxes()"> All Sections<br>
+                                <p class="mb-2 fs-4">Select Sections:</p>
+                                <span class="border-bottom border-2 pb-1">
+                                  <input type="checkbox" checked id="selectAll" onclick="toggleCheckboxes()"> <label for="selectAll" class="mb-2">All Sections</label><br>
+                                </span>
 
                                 <th:block th:each="section : ${allSections}">
-                                  <input type="checkbox" th:id="${'section_' + section.id}" checked name="sections" th:value="${section.id}"> <span th:text="${section.name}"></span><br>
+                                  <input type="checkbox" th:id="${'section_' + section.id}" checked name="sections" th:value="${section.id}"> <label th:for="${'section_' + section.id}" th:text="${section.name}"></label><br>
                                 </th:block>
                               </div>
 
@@ -89,34 +92,8 @@
                     </div>
 
                     <!--      Stream       -->
-                    <div class="streams d-flex gap-4 mt-4">
-                      <div class="left-side bg-body-tertiary rounded border p-3" style="width: 350px;">
-<!--                        <div class="d-flex align-items-center justify-content-between mb-3">-->
-<!--                          <input type="text" class="form-control" disabled id="copyInviteCode" th:value="${classroom.inviteCode}">-->
-<!--                          <button class="btn pe-0 border-0" onclick="clickToInviteCode(copyInviteCode)">-->
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">-->
-<!--                              <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>-->
-<!--                              <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>-->
-<!--                              <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>-->
-<!--                            </svg>-->
-<!--                          </button>-->
-<!--                        </div>-->
-                        <div>
-                          <div class="d-flex align-items-center justify-content-between">
-                            <a th:href="${classroom.meetingLink}" class="btn btn-primary w-100">Join</a>
-                            <input type="text" class="form-control" hidden="hidden" id="copyMeetLink" th:value="${classroom.meetingLink}">
-                            <button class="btn pe-0 border-0" onclick="clickToInviteCode(copyMeetLink)">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="right-side w-100 pb-5 mb-5">
-                        <div th:each="post : ${posts}" th:if="${post.status == true || post.user.username == classroom.teacher.username}" class="row mx-1 rounded border bg-body p-3 mb-3">
+                    <div class="streams mt-4">
+                      <div th:each="post : ${posts}" th:if="${post.status == true || post.user.username == classroom.teacher.username}" class="row mx-0 rounded border bg-body p-3 mb-3">
                           <!-- for regular stream post -->
                           <div th:if="${post.type == 'POST'}">
                             <!-- user post info -->
@@ -138,7 +115,7 @@
                                   </svg>
                                   <i class="bi bi-three-dots-vertical"></i></a>
                                 <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="#">Active</a></li>
+                                  <li><a class="dropdown-item" th:text="" href="#">Active</a></li>
                                   <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
                                 </ul>
                               </div>
@@ -156,10 +133,8 @@
                               </a>
                             </div>
                           </div>
-                        </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
