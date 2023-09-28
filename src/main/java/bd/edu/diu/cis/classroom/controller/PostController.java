@@ -6,14 +6,12 @@ import bd.edu.diu.cis.classroom.utils.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -42,14 +40,22 @@ public class PostController {
     @Value("${project.file}")
     private String contentPath;
 
-    boolean isTeacher(Principal principal, String url, UserDetailsServiceImplement userService) {
+    boolean isTeacher(Principal principal, UserDetailsServiceImplement userService, Classroom classroom) {
+        return classroomTeacherList(principal, userService, classroom, classroomTeacherService);
+    }
 
-        List<ClassroomTeacher> classroomTeacherList = classroomTeacherService.listTeachersByClassroomUrl(url);
+    static boolean classroomTeacherList(Principal principal, UserDetailsServiceImplement userService, Classroom classroom, ClassroomTeacherService classroomTeacherService) {
+        List<ClassroomTeacher> classroomTeacherList = classroomTeacherService.listTeachersByClassroomUrl(classroom.getUrl());
         boolean teacher = false;
 
         User user = userService.getByUserEmail(principal.getName());
+
+        if (Objects.equals(classroom.getTeacher().getUsername(), user.getUsername())) {
+            return true;
+        }
+
         for (ClassroomTeacher classroomTeacher : classroomTeacherList) {
-            if (classroomTeacher.getTeacher() == user || classroomTeacher.getClassroom().getTeacher() == user) {
+            if (Objects.equals(classroomTeacher.getTeacher().getUsername(), user.getUsername())) {
                 teacher = true;
                 break;
             }
@@ -73,7 +79,7 @@ public class PostController {
 
         User user = userService.getByUserEmail(principal.getName());
 
-        boolean teacher = isTeacher(principal, url, userService);
+        boolean teacher = isTeacher(principal, userService, classroom);
 
         if (!classroom.isCanPost() && !teacher && !Objects.equals(classroom.getTeacher().getUsername(), user.getUsername())) {
             attributes.addFlashAttribute("error", "Post is off or only teacher can post into this classroom");
@@ -121,6 +127,37 @@ public class PostController {
             attributes.addFlashAttribute("success", "You have successfully created the " + type);
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Internal Server Error!");
+        }
+
+        return "redirect:/classroom/stream/" + url;
+    }
+
+    @GetMapping("/classroom/post/{url}/{id}")
+    public String updatePostStatus(@PathVariable String url,
+                                   @PathVariable String id,
+                                   Principal principal,
+                                   RedirectAttributes attributes) {
+        if (principal == null) return "redirect:/login";
+
+        User user = userService.getByUserEmail(principal.getName());
+        Post post = postService.getById(Long.parseLong(id));
+
+        boolean teacher = isTeacher(principal, userService, post.getClassroom());
+
+        if (post.getUser().equals(user) || !teacher) {
+            attributes.addFlashAttribute("error", "You are not the post creator or teacher.");
+            return "redirect:/classroom/stream/" + url;
+        }
+
+        post.setStatus(!post.isStatus());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+
+        try {
+            postService.save(post);
+            attributes.addFlashAttribute("success", simpleDateFormat.format(post.getPostDate()) + " post is successfully " + (post.isStatus() ? "Visible" : "Hidden"));
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Internal Server error please try after sometimes");
         }
 
         return "redirect:/classroom/stream/" + url;

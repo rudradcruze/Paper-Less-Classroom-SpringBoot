@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static bd.edu.diu.cis.classroom.controller.PostController.classroomTeacherList;
+
 @Controller
 public class ClassroomController {
     @Autowired
@@ -131,7 +133,7 @@ public class ClassroomController {
             students += counting.getStudents().size();
         }
 
-        boolean teacher = isTeacher(principal, url, userService, classroom);
+        boolean teacher = isTeacher(principal, userService, classroom);
 
         model.addAttribute("isTeacher", teacher);
         model.addAttribute("totalStudents", students);
@@ -166,24 +168,8 @@ public class ClassroomController {
         model.addAttribute("clStudents", clStudents);
     }
 
-    boolean isTeacher(Principal principal, String url, UserDetailsServiceImplement userService, Classroom classroom) {
-
-        List<ClassroomTeacher> classroomTeacherList = classroomTeacherService.listTeachersByClassroomUrl(url);
-        boolean teacher = false;
-
-        User user = userService.getByUserEmail(principal.getName());
-
-        if (Objects.equals(classroom.getTeacher().getUsername(), user.getUsername())) {
-            return true;
-        }
-
-        for (ClassroomTeacher classroomTeacher : classroomTeacherList) {
-            if (Objects.equals(classroomTeacher.getTeacher().getUsername(), user.getUsername())) {
-                teacher = true;
-                break;
-            }
-        }
-        return teacher;
+    boolean isTeacher(Principal principal, UserDetailsServiceImplement userService, Classroom classroom) {
+        return classroomTeacherList(principal, userService, classroom, classroomTeacherService);
     }
 
     @GetMapping("/classroom/stream/{url}")
@@ -201,7 +187,7 @@ public class ClassroomController {
 
         userAndClassroom(model, principal, session, userService);
 
-        boolean teacher = isTeacher(principal, url, userService, classroom);
+        boolean teacher = isTeacher(principal, userService, classroom);
 
         if (!teacher)
             posts.removeIf(postEach -> !postEach.getSections().contains(sectionUser.getSection()));
