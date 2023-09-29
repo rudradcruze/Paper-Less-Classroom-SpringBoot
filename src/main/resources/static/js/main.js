@@ -1,6 +1,8 @@
+
 "use strict"
 
 $(window).on("load", function() {
+
     $('.btn-forget').on('click',function(e){
         e.preventDefault();
         var inputField = $(this).closest('form').find('input');
@@ -15,7 +17,7 @@ $(window).on("load", function() {
 
     },
 
-        $(".content-richText").richText()
+    $(".content-richText").richText()
 
     );
     
@@ -23,6 +25,7 @@ $(window).on("load", function() {
         e.preventDefault();
         $('.nav-tabs .nav-item > .active').parent().next('li').find('a').trigger('click');
     });
+
     $('.custom-file input[type="file"]').on('change', function(){
         var filename = $(this).val().split('\\').pop();
         $(this).next().text(filename);

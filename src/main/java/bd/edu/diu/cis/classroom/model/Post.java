@@ -20,8 +20,10 @@ public class Post {
     @Column(length = 10000)
     private String content;
     private boolean status;
+    private boolean canSubmit;
     private String type;
     private String fileName;
+    private int grade;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

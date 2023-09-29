@@ -20,6 +20,10 @@ public class PostService {
         return postRepository.findPostsByClassroomUrlOrderByPostDateDesc(url);
     }
 
+    public List<Post> getAllByClassroomUrlAndPostTypeDateDesc(String url, String type) {
+        return postRepository.findPostsByClassroomUrlAndTypeOrderByPostDateDesc(url, type);
+    }
+
     public void save(Post post) {
         postRepository.save(post);
     }

@@ -227,4 +227,20 @@ public class ClassroomController {
 
         return "classroom-setting";
     }
+
+    @GetMapping("classroom/classwork/{url}")
+    public String classroomClasswork(@PathVariable String url,
+                                     Model model,
+                                     Principal principal,
+                                     HttpSession session) {
+
+        if (principal == null) return "redirect:/login";
+        Classroom classroom = classroomService.findByUrl(url);
+
+        model.addAttribute("active", "classwork");
+        model.addAttribute("classroom", classroom);
+
+
+        return "classroom-classwork";
+    }
 }

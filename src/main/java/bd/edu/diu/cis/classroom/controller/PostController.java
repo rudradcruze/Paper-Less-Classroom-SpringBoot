@@ -151,11 +151,9 @@ public class PostController {
 
         post.setStatus(!post.isStatus());
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
-
         try {
             postService.save(post);
-            attributes.addFlashAttribute("success", simpleDateFormat.format(post.getPostDate()) + " post is successfully " + (post.isStatus() ? "Visible" : "Hidden"));
+            attributes.addFlashAttribute("success", new SimpleDateFormat("dd MMM yyyy").format(post.getPostDate()) + " post is successfully " + (post.isStatus() ? "Visible" : "Hidden"));
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Internal Server error please try after sometimes");
         }

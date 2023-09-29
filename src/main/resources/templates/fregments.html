@@ -198,7 +198,7 @@
     <header class="d-flex justify-content-between pb-1">
       <ul class="nav nav-pills">
         <li class="nav-item"><a th:href="@{'/classroom/stream/' + ${classroom.url}}" th:class="${active == 'stream' ? 'active nav-link' : ' nav-link'}" class="nav-link">Stream</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Classwork</a></li>
+        <li class="nav-item"><a th:href="@{'/classroom/classwork/' + ${classroom.url}}" th:class="${active == 'classwork' ? 'active nav-link' : ' nav-link'}">Classwork</a></li>
         <li class="nav-item"><a th:href="@{'/classroom/people/' + ${classroom.url}}" th:class="${active == 'people' ? 'active nav-link' : ' nav-link'}">People</a></li>
       </ul>
       <ul th:if="${isTeacher}" class="nav nav-pills">
@@ -345,6 +345,52 @@
     </div>
   </div>
 
+  <div th:fragment="classwork-modal" class="modal fade" id="classworkModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="classworkModalIdLabel">Create Classwork</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        <div class="modal-body">
+          <form action="#" method="post" id="classworkPost">
+            <input type="text" name="url" value="shdfgkhakjghkahgkjh" hidden id="url">
+
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" required name="title" id="title" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label for="content" class="form-label">Instruction</label>
+              <textarea name="content" required id="content" cols="30" rows="5" class="form-control content-richText"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="grade" class="form-label">Grade</label>
+              <input type="text" name="grade" id="grade" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label for="dueDate" class="form-label">Due Date</label>
+              <input type="datetime-local" name="dueDate" id="dueDate" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label for="file" class="form-label">Attachment</label>
+              <input class="form-control" type="file" id="file">
+            </div>
+
+          <div class="modal-footer pb-0 mt-4">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Create & Post</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div th:fragment="scripts">
     <script th:src="@{../../js/jquery.min.js}"></script>
     <script th:src="@{../../js/popper.min.js}"></script>
@@ -352,6 +398,7 @@
     <script th:src="@{../../js/main.js}"></script>
     <script th:src="@{../../js/sidebars.js}"></script>
     <script th:if="${logcss == null}" th:src="@{../../js/jquery.richtext.min.js}"></script>
+    <script th:src="@{../../js/dynamicForm.js}"></script>
   </div>
 </body>
 </html>

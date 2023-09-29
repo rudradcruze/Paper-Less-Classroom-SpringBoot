@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fregments :: head"></head>
+
+<body>
+  <div th:replace="fregments :: theme-change"></div>
+  <!-- Main Section Start -->
+  <main>
+    <!-- Main header -->
+    <header th:replace="fregments :: main-header" class="py-3 border-bottom"></header>
+
+    <div th:replace="fregments :: classroom-header"></div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div th:replace="fregments :: sidebar" class="col col-lg-2 col-md-3 col-sm-12 m-0 p-0"></div>
+          <div class="col m-0 p-0">
+            <div class="p-3 rounded m-3 ms-0 mb-5 border overflow-auto mt-0 me-1" style="height: 100vh;">
+              <div class="pb-5 mb-5">
+                <div class="row">
+                  <div class="col-lg-8 mt-5 mx-auto bg-body-tertiary rounded p-3 pb-1">
+                    <div th:if="${error}" th:replace="fregments :: alert-error"></div>
+                    <div th:if="${success}" th:replace="fregments ::  alert-success"></div>
+                    <div class="section">
+                      <!-- Title -->
+                      <div class="d-flex justify-content-between align-items-center pb-3">
+                        <h2 class="mb-0 pb-0">Classwork</h2>
+                        <ul class="d-flex align-items-center mb-0">
+                          <li class="list-group-item">
+                            <a href="#" class="btn p-1 px-2 d-flex align-items-center btn-primary" id="assignment" data-bs-toggle="modal" data-bs-target="#classworkModel">
+                              <i class="fa fa-plus fs-5 me-2 mb-0" aria-hidden="true"></i> Create Assignment
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <!-- Divider -->
+                      <div class="border-top border-2 rounded mb-3 border-light"></div>
+
+                      <!-- Data -->
+                      <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
+                        <div class="accordion-item border rounded-4 rounded-bottom-0 bg-body-secondary">
+                          <div class="accordion-header bg-body-tertiary rounded-4 rounded-bottom-0 collapsed d-flex justify-content-between align-items-center px-3 py-2"  type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <div class="left d-flex align-items-center">
+                              <span class="rounded-circle bg-primary" style="width: 40px; height: 40px; line-height: 40px; text-align: center;">
+                                <i class="fa fa-tasks" aria-hidden="true"></i>
+                              </span>
+                              <h2 class="fs-4 mb-0 ms-3">Title</h2>
+                            </div>
+
+                            <div class="right">
+                              <p class="mb-0">Due</p>
+                            </div>
+                          </div>
+
+                          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+
+                              <div class="d-flex justify-content-between align-items-center">
+                                <p class="text-muted text-small">Post at: <span></span></p>
+                                <p class="text-muted text-small"></p>
+                              </div>
+
+                              <div class="content">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+
+                              <div class="border border-top-1 my-3"></div>
+
+                              <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" class="btn btn-outline-info">View Instruction</a>
+                                <a href="#" class="btn btn-info">Review Work</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Modal -->
+                      <div th:replace="fregments :: classwork-modal"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div th:replace="fregments :: classroom-join-modal"></div>
+    <div th:replace="fregments :: classroom-section-modal"></div>
+
+    <div th:replace="fregments :: scripts"></div>
+  </body>
+</html>
