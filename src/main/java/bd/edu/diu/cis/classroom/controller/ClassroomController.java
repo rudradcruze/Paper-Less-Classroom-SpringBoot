@@ -235,9 +235,16 @@ public class ClassroomController {
                                      HttpSession session) {
 
         if (principal == null) return "redirect:/login";
-        Classroom classroom = classroomService.findByUrl(url);
 
+        Classroom classroom = classroomService.findByUrl(url);
+        List<Section> sectionList = sectionService.listSectionsByClassroomUrl(url);
+
+        Post post = new Post();
+        post.setClassroom(classroom);
+
+        model.addAttribute("post", post);
         model.addAttribute("active", "classwork");
+        model.addAttribute("allSections", sectionList);
         model.addAttribute("classroom", classroom);
 
 

@@ -11,7 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -67,8 +71,8 @@ public class PostController {
     public String classroomPost(@ModelAttribute Post post,
                                 @PathVariable String url,
                                 @RequestParam(value = "type") String type,
-                                @RequestParam(value = "title", required = false) String title,
                                 @RequestParam(value = "file", required = false) MultipartFile file,
+                                @RequestParam(value = "str_dueDate", required = false) String str_dueDate,
                                 @RequestParam(value = "sections", required = false) List<Long> sections,
                                 Principal principal, RedirectAttributes attributes) {
 
@@ -95,17 +99,34 @@ public class PostController {
         post.setSections(selectedSections);
 
         // Identifying the post type
-        if (Objects.equals(type, "post"))
+        if (Objects.equals(type, "post")) {
             post.setType("POST");
+        }
         else if (Objects.equals(type, "material"))
             post.setType("MATERIAL");
         else if (Objects.equals(type, "question"))
             post.setType("QUESTION");
-        else
+        else {
             post.setType("ASSIGNMENT");
+        }
 
-        if (!Objects.equals(type, "post")) {
-            post.setTitle(title);
+
+        if (str_dueDate != null) {
+
+            try {
+                // Define the DateTimeFormatter for parsing the datetime-local string (Java 8 and later)
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+                // Parse the string to a LocalDateTime
+                LocalDateTime localDateTime = LocalDateTime.parse(str_dueDate, formatter);
+
+                // Convert LocalDateTime to java.util.Date
+                Date utilDate = Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
+
+                post.setDueDate(utilDate);
+            } catch (Exception e) {
+                attributes.addFlashAttribute("error", "Due date error");
+            }
         }
 
         // setting common values

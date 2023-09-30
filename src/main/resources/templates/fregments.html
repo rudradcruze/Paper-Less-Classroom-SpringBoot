@@ -353,39 +353,53 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
         <div class="modal-body">
-          <form action="#" method="post" id="classworkPost">
-            <input type="text" name="url" value="shdfgkhakjghkahgkjh" hidden id="url">
+          <form th:action="@{'/classroom/post/' + ${classroom.url} + '?type=assignment'}" method="post" enctype="multipart/form-data" th:object="${post}" id="classworkPost">
+            <input type="text" name="url" th:value="${post.classroom.url}" id="url">
 
             <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" required name="title" id="title" class="form-control">
+              <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
+              <input type="text" required name="title" th:field="*{title}" id="title" class="form-control">
             </div>
 
             <div class="mb-3">
-              <label for="content" class="form-label">Instruction</label>
-              <textarea name="content" required id="content" cols="30" rows="5" class="form-control content-richText"></textarea>
+              <label for="content" class="form-label">Instruction<span class="text-danger">*</span></label>
+              <textarea name="content" required id="content" th:field="*{content}" cols="30" rows="5" class="form-control content-richText"></textarea>
             </div>
 
             <div class="mb-3">
               <label for="grade" class="form-label">Grade</label>
-              <input type="text" name="grade" id="grade" class="form-control">
+              <input type="number" name="grade" th:field="*{grade}" id="grade" class="form-control">
             </div>
 
             <div class="mb-3">
-              <label for="dueDate" class="form-label">Due Date</label>
-              <input type="datetime-local" name="dueDate" id="dueDate" class="form-control">
+              <label for="dueDate" class="form-label">Due Date<span class="text-danger">*</span></label>
+              <input type="datetime-local" name="str_dueDate" required id="dueDate" class="form-control">
             </div>
 
             <div class="mb-3">
               <label for="file" class="form-label">Attachment</label>
-              <input class="form-control" type="file" id="file">
+              <input class="form-control" type="file" name="file" id="file">
             </div>
 
-          <div class="modal-footer pb-0 mt-4">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Create & Post</button>
-          </div>
-        </form>
+            <div class="border border-top-1 mb-2"></div>
+
+            <div class="mb-3">
+              <p class="mb-2 fs-4">Select Sections:</p>
+
+              <span class="border-bottom border-2 pb-1">
+                <input type="checkbox" checked id="selectAll" onclick="toggleCheckboxes()"> <label for="selectAll" class="mb-2">All Sections</label><br>
+              </span>
+
+              <th:block th:each="section : ${allSections}">
+                <input type="checkbox" th:id="${'section_' + section.id}" checked name="sections" th:value="${section.id}"> <label th:for="${'section_' + section.id}" th:text="${section.name}"></label><br>
+              </th:block>
+            </div>
+
+            <div class="modal-footer pb-0 mt-4">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Create & Post</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
