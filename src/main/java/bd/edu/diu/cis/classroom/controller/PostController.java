@@ -165,7 +165,7 @@ public class PostController {
 
         boolean teacher = isTeacher(principal, userService, post.getClassroom());
 
-        if (post.getUser().equals(user) || !teacher) {
+        if (!post.getUser().equals(user) || !teacher) {
             attributes.addFlashAttribute("error", "You are not the post creator or teacher.");
             return "redirect:/classroom/stream/" + url;
         }
