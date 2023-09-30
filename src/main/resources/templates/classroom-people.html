@@ -47,28 +47,26 @@
                       </tbody>
                     </table>
 
-                    <table class="table">
-                      <div class="d-flex justify-content-between align-items-center mt-5 pb-3">
-                        <h2 class="mb-0 pb-0">Classmates</h2>
-                        <p class="mb-0 pb-0"><span th:text="${totalStudents}"></span> students</p>
-                      </div>
+                    <div class="d-flex justify-content-between align-items-center mt-5 pb-3">
+                      <h2 class="mb-0 pb-0">Classmates</h2>
+                      <p class="mb-0 pb-0"><span th:text="${totalStudents}"></span> students</p>
+                    </div>
 
-                      <tbody class="table-group-divider">
+                    <div class="border-top border-2 rounded mb-3"></div>
 
-                        <div th:each="section, index : ${sectionList}">
-                          <div th:if="${section.students.size() > 0}">
-                            <div class="d-flex justify-content-between mb-0 pb-0">
-                              <h3 th:text="${section.name}"></h3>
-                              <p th:text="${section.students.size() + ' students'}"></p>
-                            </div>
-                            <tr th:each="sectionUser, index : ${section.students}">
-                              <td th:text="${index.index + 1}">1</td>
-                              <td th:text="${sectionUser.student.firstName + ' ' + sectionUser.student.lastName}"></td>
-                              <td th:if="${isTeacher == true || session.user.username == classroom.teacher.username}" class="text-end">Action</td>
-                            </tr>
-                          </div>
+                    <table class="table" th:each="section, index : ${sectionList}">
+                      <div th:if="${section.students.size() > 0}">
+                        <div class="d-flex justify-content-between mb-0 pb-0">
+                          <h3 th:text="${section.name}"></h3>
+                          <p th:text="${section.students.size() + ' students'}"></p>
                         </div>
-                      </tbody>
+
+                        <tr th:each="sectionUser, index : ${section.students}">
+                          <td th:text="${index.index+1}"></td>
+                          <td th:text="${sectionUser.student.firstName + ' ' + sectionUser.student.lastName}"></td>
+                          <td th:if="${isTeacher == true || session.user.username == classroom.teacher.username}" class="text-end">Action</td>
+                        </tr>
+                      </div>
                     </table>
                   </div>
                 </div>

@@ -216,9 +216,9 @@ public class ClassroomController {
 
         if (principal == null) return "redirect:/login";
 
+        userAndClassroom(model, principal, session, userService);
         Classroom classroom = classroomService.findByUrl(url);
         List<Section> sections = sectionService.listSectionsByClassroomUrl(url);
-        userAndClassroom(model, principal, session, userService);
 
         model.addAttribute("classroom", classroom);
         model.addAttribute("sections", sections);
@@ -236,6 +236,7 @@ public class ClassroomController {
 
         if (principal == null) return "redirect:/login";
 
+        userAndClassroom(model, principal, session, userService);
         Classroom classroom = classroomService.findByUrl(url);
         List<Section> sectionList = sectionService.listSectionsByClassroomUrl(url);
 
