@@ -108,6 +108,7 @@ public class PostController {
             post.setType("QUESTION");
         else {
             post.setType("ASSIGNMENT");
+            post.setCanSubmit(true);
         }
 
 

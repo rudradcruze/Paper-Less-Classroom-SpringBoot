@@ -239,11 +239,16 @@ public class ClassroomController {
         userAndClassroom(model, principal, session, userService);
         Classroom classroom = classroomService.findByUrl(url);
         List<Section> sectionList = sectionService.listSectionsByClassroomUrl(url);
+        boolean teacher = isTeacher(principal, userService, classroom);
+
+        List<Post> postList = postService.getAllByClassroomUrlAndPostTypeDateDesc(url, "ASSIGNMENT");
 
         Post post = new Post();
         post.setClassroom(classroom);
 
+        model.addAttribute("isTeacher", teacher);
         model.addAttribute("post", post);
+        model.addAttribute("classworkList", postList);
         model.addAttribute("active", "classwork");
         model.addAttribute("allSections", sectionList);
         model.addAttribute("classroom", classroom);
