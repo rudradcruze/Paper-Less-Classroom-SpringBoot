@@ -6,10 +6,12 @@ import bd.edu.diu.cis.classroom.utils.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -181,6 +183,27 @@ public class PostController {
         }
 
         return "redirect:/classroom/stream/" + url;
+    }
+
+    @GetMapping("/classroom/instruction/{url}/{id}")
+    public String postInstruction(@PathVariable String id,
+                                  @PathVariable String url,
+                                  Model model, Principal principal, HttpSession session) {
+
+        if (principal == null) return "redirect:/login";
+
+        Classroom classroom = classroomService.findByUrl(url);
+
+        ClassroomController.userAndClassroom(model, principal, session, userService);
+        boolean teacher = isTeacher(principal, userService, classroom);
+
+        Post post = postService.getById(Long.parseLong(id));
+
+        model.addAttribute("classroom", classroom);
+        model.addAttribute("isTeacher", teacher);
+        model.addAttribute("post", post);
+
+        return "post-instruction";
     }
 
 }

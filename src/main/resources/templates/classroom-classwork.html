@@ -38,7 +38,7 @@
                       <div class="border-top border-2 rounded mb-3 border-light"></div>
 
                       <!-- Data -->
-                      <div th:each="classwork : ${classworkList}" th:if="${classwork.isStatus() or isTeacher or session.user.equals(post.user.username)}" class="accordion accordion-flush mb-3" th:id="${'classwork' + classwork.id}">
+                      <div th:each="classwork : ${classworkList}" th:if="${classwork.isStatus() or isTeacher or session.user.equals(post.user)}" class="accordion accordion-flush mb-3" th:id="${'classwork' + classwork.id}">
                         <div class="accordion-item border rounded-4 rounded-bottom-0 bg-body-secondary">
                           <div class="accordion-header bg-body-tertiary rounded-4 rounded-bottom-0 collapsed d-flex justify-content-between align-items-center px-3 py-2"  type="button" data-bs-toggle="collapse" th:data-bs-target="${'#flush-collapseOne' + classwork.id}" aria-expanded="false" aria-controls="flush-collapseOne">
                             <div class="left d-flex align-items-center">
@@ -66,7 +66,7 @@
                               <div class="border border-top-1 my-3"></div>
 
                               <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-outline-info">View Instruction</a>
+                                <a th:href="@{'/classroom/instruction/' + ${classwork.classroom.url} + '/' + ${classwork.id}}" class="btn btn-outline-info">View Instruction</a>
                                 <a href="#" class="btn btn-info">Review Work</a>
                               </div>
                             </div>

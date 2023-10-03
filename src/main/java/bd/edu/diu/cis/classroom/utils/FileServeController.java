@@ -56,4 +56,11 @@ public class FileServeController {
             System.out.println("File not found.");
         }
     }
+
+    @GetMapping("test/files/{name}")
+    public String  deleteFile(@PathVariable String name) throws IOException {
+        System.out.println(name);
+        boolean delete = fileService.deleteFile(name);
+        return "redirect:/login";
+    }
 }
