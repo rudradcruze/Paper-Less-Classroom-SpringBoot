@@ -43,4 +43,7 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "section_id")
     )
     private List<Section> sections = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private List<Submission> submissions = new ArrayList<>();
 }

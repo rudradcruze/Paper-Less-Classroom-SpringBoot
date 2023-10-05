@@ -35,6 +35,9 @@ public class User {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<SectionUser> sectionStudents = new ArrayList<>();
 
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<Submission> submissionList = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
