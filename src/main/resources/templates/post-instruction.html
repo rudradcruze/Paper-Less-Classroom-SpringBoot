@@ -51,6 +51,7 @@
                   <div th:if="${!isTeacher}" class="col mt-5 bg-body-tertiary p-3 rounded">
                     <h3 class="mb-3">Submit Your Work</h3>
                     <form th:action="@{'/classroom/post/' + ${classroom.url} + '/' + ${post.id} + '/submission/save'}" enctype="multipart/form-data" th:object="${submission}" method="post">
+                      <input type="text" hidden th:field="*{id}" name="id">
                       <div class="mb-3">
                         <label for="content" class="form-label">Outline </label>
                         <textarea name="content" id="content" th:field="*{content}" class="form-control content-richText" rows="6"></textarea>
@@ -60,7 +61,8 @@
                         <input type="file" id="file" name="file" class="form-control">
                       </div>
                       <div class="mb-3">
-                        <button type="submit" name="submit" class="btn btn-primary w-100">Submit</button>
+                        <button type="submit" name="submit" th:if="${submission.id == null or submission.status == 'UNSUBMIT'}" class="btn btn-primary w-100">Submit</button>
+                        <a href="#" th:if="${submission.id != null and (submission.status == 'SUBMIT' or submission.status != 'UNSUBMIT')}" class="btn btn-info w-100">Un-submit</a>
                       </div>
                     </form>
                   </div>

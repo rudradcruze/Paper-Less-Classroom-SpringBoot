@@ -23,4 +23,8 @@ public class SubmissionService {
     public void save(Submission submission) {
         submissionRepository.save(submission);
     }
+
+    public Submission getByPostIdAndUser(long id, String email) {
+        return submissionRepository.getSubmissionByPostIdAndStudentUsername(id, email);
+    }
 }

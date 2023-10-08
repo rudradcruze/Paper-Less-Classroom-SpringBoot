@@ -42,6 +42,9 @@ public class PostController {
     @Autowired
     private SectionService sectionService;
 
+    @Autowired
+    private SubmissionService submissionService;
+
     @Value("${project.file}")
     private String contentPath;
 
@@ -208,11 +211,17 @@ public class PostController {
         boolean teacher = isTeacher(principal, userService, classroom);
 
         Post post = postService.getById(Long.parseLong(id));
+        Submission submission;
+
+        submission = submissionService.getByPostIdAndUser(post.getId(), principal.getName());
+
+        if (submission == null)
+            submission = new Submission();
 
         model.addAttribute("classroom", classroom);
         model.addAttribute("isTeacher", teacher);
         model.addAttribute("post", post);
-        model.addAttribute("submission", new Submission());
+        model.addAttribute("submission", submission);
 
         return "post-instruction";
     }
