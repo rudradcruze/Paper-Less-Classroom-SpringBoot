@@ -2,6 +2,7 @@ package bd.edu.diu.cis.classroom.controller;
 
 import bd.edu.diu.cis.classroom.model.*;
 import bd.edu.diu.cis.classroom.service.*;
+import bd.edu.diu.cis.classroom.utils.FileExtensionCheck;
 import bd.edu.diu.cis.classroom.utils.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,6 +44,9 @@ public class PostController {
 
     @Value("${project.file}")
     private String contentPath;
+
+    @Value("${project.image}")
+    private String imagePath;
 
     boolean isTeacher(Principal principal, UserDetailsServiceImplement userService, Classroom classroom) {
         return classroomTeacherList(principal, userService, classroom, classroomTeacherService);
@@ -142,7 +144,10 @@ public class PostController {
 
         // checking & uploading the content file
         if (!file.isEmpty()) {
-            fileName = fileService.uploadFile(contentPath, file, "content");
+            if (FileExtensionCheck.imageCheck(file.getOriginalFilename()))
+                fileName = fileService.uploadFile(imagePath, file, "image");
+            else
+                fileName = fileService.uploadFile(contentPath, file, "content");
             post.setFileName(fileName);
         }
 
@@ -159,6 +164,7 @@ public class PostController {
     @GetMapping("/classroom/post/{url}/{id}")
     public String updatePostStatus(@PathVariable String url,
                                    @PathVariable String id,
+                                   @RequestParam("type") String type,
                                    Principal principal,
                                    RedirectAttributes attributes) {
         if (principal == null) return "redirect:/login";
@@ -173,7 +179,11 @@ public class PostController {
             return "redirect:/classroom/stream/" + url;
         }
 
-        post.setStatus(!post.isStatus());
+        if (Objects.equals(type, "status"))
+            post.setStatus(!post.isStatus());
+        else if (Objects.equals(type, "submit")) {
+            post.setCanSubmit(!post.isCanSubmit());
+        }
 
         try {
             postService.save(post);
@@ -202,6 +212,7 @@ public class PostController {
         model.addAttribute("classroom", classroom);
         model.addAttribute("isTeacher", teacher);
         model.addAttribute("post", post);
+        model.addAttribute("submission", new Submission());
 
         return "post-instruction";
     }

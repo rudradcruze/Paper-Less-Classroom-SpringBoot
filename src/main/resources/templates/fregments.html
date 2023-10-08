@@ -264,7 +264,8 @@
       </svg>
       <i class="bi bi-three-dots-vertical"></i></a>
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" th:text="${post.isStatus() ? 'Hide' : 'Activate'}" th:href="@{'/classroom/post/' + ${post.classroom.url} + '/' + ${post.id}}"></a></li>
+      <li><a class="dropdown-item" th:text="${post.isStatus() ? 'Hide' : 'Activate'}" th:href="@{'/classroom/post/' + ${post.classroom.url} + '/' + ${post.id} + '?type=status'}"></a></li>
+      <li><a class="dropdown-item" th:text="${post.isCanSubmit() ? 'Off Submittion' : 'Accept Submission'}" th:href="@{'/classroom/post/' + ${post.classroom.url} + '/' + ${post.id} + '?type=submit'}"></a></li>
       <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
     </ul>
   </div>

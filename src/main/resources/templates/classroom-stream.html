@@ -21,6 +21,7 @@
                   <div class="col-lg-10 mt-2 mx-auto">
                     <div th:if="${error}" th:replace="fregments :: alert-error"></div>
                     <div th:if="${success}" th:replace="fregments ::  alert-success"></div>
+                    <div th:if="${warning}" th:replace="fregments ::  alert-warning"></div>
                     <div class="mb-2 rounded text-body-emphasis bg-body-secondary">
                       <div class="col-lg-6 p-0 m-0 position-relative w-100" style="height: 300px;">
                         <div class="overlay overlay-2"></div>
@@ -135,6 +136,7 @@
                                   <p class="mb-0 pb-0"><span th:text="${post.user.firstName + ' ' + post.user.lastName}"></span> posted a new assignment: <span th:text="${post.title}"></span></p>
                                   <p class="text-small text-muted mb-0 pb-0"><span th:text="${#dates.format(post.postDate, 'MMM dd, yyyy')}"></span><span th:if="${isTeacher}"> . <span th:each="sectionName : ${post.sections} " th:text="${sectionName.name + ', '}"></span></span></p>
                                   <p th:if="${isTeacher or session.user.equals(post.user.username)}" class="text-small text-muted mb-0 pb-0">Status: <span th:text="${post.isStatus() ? 'Visible' : 'Hidden'}"></span></p>
+                                  <p class="text-small text-muted mb-0 pb-0">Submission: <span th:text="${post.isCanSubmit() ? 'On' : 'Closed'}"></span></p>
                                 </div>
                               </div>
                             </div>

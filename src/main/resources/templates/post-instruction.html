@@ -19,8 +19,12 @@
             <div class="p-3 rounded m-3 ms-0 mb-5 mt-0 border overflow-auto" style="height: 100vh;">
               <div class="pb-5 mb-5">
                 <div class="row gap-4 mx-4">
-                  <div class="col-lg-8 mt-5 mx-auto">
 
+                  <div th:if="${error}" th:replace="fregments :: alert-error"></div>
+                  <div th:if="${success}" th:replace="fregments ::  alert-success"></div>
+                  <div th:if="${warning}" th:replace="fregments ::  alert-warning"></div>
+
+                  <div class="col-lg-8 mt-5 mx-auto">
                     <div class="d-flex justify-content-between align-items-center pb-3">
                       <div class="d-flex align-items-center">
                         <span class="rounded-circle bg-primary" style="width: 40px; height: 40px; line-height: 40px; text-align: center;">
@@ -35,7 +39,7 @@
                       <div th:replace="fregments :: post-action-menu"></div>
                     </div>
 
-                    <p class="text-end text-muted text-small">Due <span th:text="${#dates.format(post.postDate, 'MMM dd, yyyy hh:mm')}"></span></p>
+                    <p class="text-end text-muted text-small">Due <span th:text="${#dates.format(post.dueDate, 'MMM dd, yyyy hh:mm')}"></span></p>
 
                     <!-- Divider -->
                     <div class="border-top border-2 rounded mb-3 border-light"></div>
@@ -46,17 +50,17 @@
 
                   <div th:if="${!isTeacher}" class="col mt-5 bg-body-tertiary p-3 rounded">
                     <h3 class="mb-3">Submit Your Work</h3>
-                    <form action="#" method="post">
+                    <form th:action="@{'/classroom/post/' + ${classroom.url} + '/' + ${post.id} + '/submission/save'}" enctype="multipart/form-data" th:object="${submission}" method="post">
                       <div class="mb-3">
                         <label for="content" class="form-label">Outline </label>
-                        <textarea name="content" id="content" class="form-control" rows="6"></textarea>
+                        <textarea name="content" id="content" th:field="*{content}" class="form-control content-richText" rows="6"></textarea>
                       </div>
                       <div class="mb-3">
                         <label for="file" class="form-label">Attachment</label>
                         <input type="file" id="file" name="file" class="form-control">
                       </div>
                       <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        <button type="submit" name="submit" class="btn btn-primary w-100">Submit</button>
                       </div>
                     </form>
                   </div>

@@ -21,6 +21,7 @@
                   <div class="col-lg-8 mt-5 mx-auto bg-body-tertiary rounded p-3 pb-1">
                     <div th:if="${error}" th:replace="fregments :: alert-error"></div>
                     <div th:if="${success}" th:replace="fregments ::  alert-success"></div>
+                    <div th:if="${warning}" th:replace="fregments ::  alert-warning"></div>
                     <div class="section">
                       <!-- Title -->
                       <div class="d-flex justify-content-between align-items-center pb-3">
