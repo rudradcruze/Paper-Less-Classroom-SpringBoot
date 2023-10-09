@@ -32,14 +32,14 @@
                         </span>
                         <div class="ms-3">
                           <h2 class="mb-1 pb-0" th:text="${post.title}">Classwork</h2>
-                          <p class="text-small text-muted mb-0"><span th:text="${post.user.firstName + ' ' + post.user.lastName}"></span> . <span th:text="${#dates.format(post.postDate, 'MMM dd, yyyy')}">Dec 22, 2023</span></p>
+                          <p class="text-small text-muted mb-0"><span th:text="${post.user.firstName + ' ' + post.user.lastName}"></span> . <span th:text="${#dates.format(post.postDate, 'MMMM dd, yyyy hh:mm a')}">Dec 22, 2023</span></p>
                         </div>
                       </div>
 
                       <div th:replace="fregments :: post-action-menu"></div>
                     </div>
 
-                    <p class="text-end text-muted text-small">Due <span th:text="${#dates.format(post.dueDate, 'MMM dd, yyyy hh:mm')}"></span></p>
+                    <p class="text-end text-muted text-small">Due <span th:text="${#dates.format(post.dueDate, 'MMMM dd, yyyy hh:mm a')}"></span></p>
 
                     <!-- Divider -->
                     <div class="border-top border-2 rounded mb-3 border-light"></div>

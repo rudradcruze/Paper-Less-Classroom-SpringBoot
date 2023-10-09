@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fregments :: head"></head>
+
+  <body>
+    <div th:replace="fregments :: theme-change"></div>
+    <!-- Main Section Start -->
+    <main>
+      <!-- Main header -->
+      <header th:replace="fregments :: main-header" class="py-3 border-bottom"></header>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div th:replace="fregments :: sidebar" class="col col-lg-2 col-md-3 col-sm-12 m-0 p-0"></div>
+          <div class="col m-0 p-0">
+            <div class="p-3 rounded m-3 ms-0 mb-5 border overflow-auto mt-0 me-0" style="height: 100vh;">
+              <div class="pb-5 mb-5">
+                <div th:if="${error}" th:replace="fregments :: alert-error"></div>
+                <div th:if="${success}" th:replace="fregments :: alert-success"></div>
+                <div th:if="${warning}" th:replace="fregments ::  alert-warning"></div>
+
+                <div class="post-header bg-body-tertiary p-3 rounded mb-3 d-flex align-items-center justify-content-between">
+                  <h2 class="mb-0" th:text="${post.title}"></h2>
+
+                  <div th:replace="fregments :: post-action-menu"></div>
+                </div>
+
+                <div class="accordion mb-3" id="accordionExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Details
+                      </button>
+                    </h2>
+
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        <p class="mb-0 pb-1">Poster: <span th:text="${post.user.firstName + ' ' + post.user.lastName}"></span></p>
+                        <p class="mb-0 pb-1">Post Date: <span th:text="${#dates.format(post.postDate, 'MMMM dd, yyyy hh:mm a')}"></span></p>
+                        <p class="mb-0 pb-1">Sections: <span th:each="sectionName : ${post.sections} " th:text="${sectionName.name + ', '}"></span></p>
+                        <p class="mb-0 pb-1">Status: <span th:text="${post.isStatus() ? 'Visible' : 'Hidden'}"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-4">
+                  <div th:each="submission : ${submissionList}" class="power-hover card" style="width: 23rem; transition: all .3s ease;">
+                    <div class="card-body">
+                      <h5 class="card-title mb-3" th:text="${submission.student.firstName + ' ' + submission.student.lastName}"></h5>
+                      <div class="border-top card-text pt-3 custom-length-text" th:utext="${submission.content}"></div>
+                      <p class="text-muted mt-2 mb-0">Status: <span th:class="${submission.status == 'SUBMIT' ? 'text-success' : 'text-danger'}" th:text="${submission.status}"></span></p>
+                      <a th:href="@{'/files/' + ${submission.fileName}}" download target="_blank" th:if="${submission.fileName != null}" class="btn btn-outline-info w-100 mt-3">Download Attachment</a>
+                    </div>
+                    <div class="card-footer">
+                      <a href="#" class="btn btn-primary w-100">View Full Work</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div th:replace="fregments :: classroom-join-modal"></div>
+    <div th:replace="fregments :: scripts"></div>
+  </body>
+</html>

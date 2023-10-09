@@ -7,16 +7,20 @@ import bd.edu.diu.cis.classroom.utils.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static bd.edu.diu.cis.classroom.controller.PostController.classroomTeacherList;
 
 @Controller
 public class SubmissionController {
@@ -35,6 +39,9 @@ public class SubmissionController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private ClassroomTeacherService classroomTeacherService;
 
     @Autowired
     private SectionUserService sectionUserService;
@@ -172,5 +179,36 @@ public class SubmissionController {
             attributes.addFlashAttribute("warning", "Not submit yet.");
         }
         return "redirect:/classroom/instruction/" + url + "/" + id;
+    }
+
+    boolean isTeacher(Principal principal, UserDetailsServiceImplement userService, Classroom classroom) {
+        return classroomTeacherList(principal, userService, classroom, classroomTeacherService);
+    }
+
+    @GetMapping("/classroom/post/{url}/{id}/submission")
+    public String submissions(@PathVariable String id,
+                              @PathVariable String url,
+                              Model model,
+                              Principal principal,
+                              HttpSession session,
+                              RedirectAttributes attributes) {
+
+        if (principal == null) return "redirect:/login";
+
+        ClassroomController.userAndClassroom(model, principal, session, userService);
+        boolean teacher = isTeacher(principal, userService, classroomService.findByUrl(url));
+
+        if (!teacher) {
+            attributes.addFlashAttribute("error", "You are not an teacher of this classroom");
+            return "redirect:/classroom/post/" + url + "/" + id;
+        }
+
+        List<Submission> submissionList = submissionService.getSubmissionListByPostId(Long.parseLong(id));
+
+        model.addAttribute("submissionList", submissionList);
+        model.addAttribute("post", postService.getById(Long.parseLong(id)));
+        model.addAttribute("title", "Student Work");
+
+        return "submission";
     }
 }

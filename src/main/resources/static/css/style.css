@@ -113,3 +113,10 @@
 a.richText-btn {
   color: #000;
 }
+
+.custom-length-text {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
