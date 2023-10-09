@@ -7,10 +7,7 @@ import bd.edu.diu.cis.classroom.utils.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,6 +15,7 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class SubmissionController {
@@ -46,10 +44,27 @@ public class SubmissionController {
     @Value("${project.image}")
     private String imagePath;
 
+    private boolean checkStudentExist(Post post, String url, String userName) {
+        List<Section> sectionList = post.getSections();
+        SectionUser sectionUser = sectionUserService.getByUrlStudentEmail(url, userName);
+
+        boolean exist = false;
+
+        for (Section section : sectionList) {
+            if (sectionUser.getSection() == section) {
+                exist = true;
+                break;
+            }
+        }
+
+        return exist;
+    }
+
     @PostMapping("/classroom/post/{url}/{id}/submission/save")
     public String saveSubmission(@ModelAttribute Submission submission,
                                  @PathVariable String id,
                                  @PathVariable String url,
+                                 @RequestParam(value = "submissionId", required = false) String submissionId,
                                  @RequestParam(value = "file", required = false) MultipartFile file,
                                  Principal principal,
                                  RedirectAttributes attributes) {
@@ -57,7 +72,6 @@ public class SubmissionController {
         if (principal == null) return "redirect:/login";
 
         User user = userService.getByUserEmail(principal.getName());
-        Classroom classroom = classroomService.findByUrl(url);
         Post post = postService.getById(Long.parseLong(id));
 
         if (!post.isCanSubmit()) {
@@ -77,19 +91,7 @@ public class SubmissionController {
         }
 
         // post sections
-        List<Section> sectionList = post.getSections();
-        SectionUser sectionUser = sectionUserService.getByUrlStudentEmail(url, user.getUsername());
-
-        boolean exist = false;
-
-        for (Section section : sectionList) {
-            if (sectionUser.getSection() == section) {
-                exist = true;
-                break;
-            }
-        }
-
-        if (!exist) {
+        if (!checkStudentExist(post, url, user.getUsername())) {
             attributes.addFlashAttribute("error", "You are not an student of this classroom!");
             return "redirect:/";
         }
@@ -116,6 +118,42 @@ public class SubmissionController {
             attributes.addFlashAttribute("error", "Internal server error");
         }
 
+        return "redirect:/classroom/instruction/" + url + "/" + id;
+    }
+
+    @GetMapping("/classroom/post/{url}/{id}/submission/status")
+    public String updateStatus(@PathVariable String id,
+                               @PathVariable String url,
+                               Principal principal,
+                               @RequestParam(value = "submissionId") String submissionId,
+                               RedirectAttributes attributes) {
+
+        if (submissionId == null) {
+            attributes.addFlashAttribute("error", "Internal Server Error! Submission is not detected!");
+            return "redirect:/classroom/instruction/" + url + "/" + id;
+        }
+
+        Post post = postService.getById(Long.parseLong(id));
+
+        if (!checkStudentExist(post, url, principal.getName())) {
+            attributes.addFlashAttribute("error", "You are not an student of this classroom!");
+            return "redirect:/";
+        }
+
+        Submission submission = submissionService.getById(Long.parseLong(submissionId));
+
+        if (Objects.equals(submission.getStatus(), "SUBMIT")) {
+            submission.setStatus("UNSUBMIT");
+            try {
+                submissionService.save(submission);
+                attributes.addFlashAttribute("success", "Submission is successfully un-submit");
+            } catch (Exception e) {
+                attributes.addFlashAttribute("error", "Internal server error");
+            }
+        }
+        else {
+            attributes.addFlashAttribute("warning", "Not submit yet.");
+        }
         return "redirect:/classroom/instruction/" + url + "/" + id;
     }
 }
