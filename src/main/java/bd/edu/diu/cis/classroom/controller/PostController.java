@@ -147,7 +147,7 @@ public class PostController {
 
         // checking & uploading the content file
         if (!file.isEmpty()) {
-            if (FileExtensionCheck.imageCheck(file.getOriginalFilename()))
+            if (FileExtensionCheck.imageCheck(Objects.requireNonNull(file.getOriginalFilename())))
                 fileName = fileService.uploadFile(imagePath, file, "image");
             else
                 fileName = fileService.uploadFile(contentPath, file, "content");

@@ -30,7 +30,7 @@ public class FileService {
         assert name != null;
         String extension = name.substring(name.lastIndexOf(".")).replace(".", "");
 
-        if (Objects.equals(type, "image") && !FileExtensionCheck.imageCheck(extension.toUpperCase())) {
+        if (Objects.equals(type, "image") && !FileExtensionCheck.imageCheck(name)) {
             return "not image";
         }
 

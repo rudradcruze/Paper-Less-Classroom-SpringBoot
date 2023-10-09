@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +58,7 @@ public class SubmissionController {
             }
         }
 
-        return exist;
+        return !exist;
     }
 
     @PostMapping("/classroom/post/{url}/{id}/submission/save")
@@ -70,6 +71,12 @@ public class SubmissionController {
                                  RedirectAttributes attributes) {
 
         if (principal == null) return "redirect:/login";
+
+        if (!submissionId.isBlank() || !submissionId.isEmpty()) {
+            Submission newSubmission = submissionService.getById(Long.parseLong(submissionId));
+            newSubmission.setContent(submission.getContent());
+            submission = newSubmission;
+        }
 
         User user = userService.getByUserEmail(principal.getName());
         Post post = postService.getById(Long.parseLong(id));
@@ -91,7 +98,7 @@ public class SubmissionController {
         }
 
         // post sections
-        if (!checkStudentExist(post, url, user.getUsername())) {
+        if (checkStudentExist(post, url, user.getUsername())) {
             attributes.addFlashAttribute("error", "You are not an student of this classroom!");
             return "redirect:/";
         }
@@ -100,7 +107,17 @@ public class SubmissionController {
 
         // checking & uploading the content file
         if (!file.isEmpty()) {
-            if (FileExtensionCheck.imageCheck(file.getOriginalFilename()))
+            if (submission.getFileName() != null && submissionId != null) {
+                try {
+                    boolean delete = fileService.deleteFile(submission.getFileName());
+                } catch (IOException e) {
+                    attributes.addFlashAttribute("error", "Previous File is not deleted!");
+                    return "redirect:/classroom/instruction/" + url + "/" + id;
+                }
+            }
+
+            boolean extensionCheck = FileExtensionCheck.imageCheck(Objects.requireNonNull(file.getOriginalFilename()));
+            if (extensionCheck)
                 fileName = fileService.uploadFile(imagePath, file, "image");
             else
                 fileName = fileService.uploadFile(contentPath, file, "content");
@@ -135,7 +152,7 @@ public class SubmissionController {
 
         Post post = postService.getById(Long.parseLong(id));
 
-        if (!checkStudentExist(post, url, principal.getName())) {
+        if (checkStudentExist(post, url, principal.getName())) {
             attributes.addFlashAttribute("error", "You are not an student of this classroom!");
             return "redirect:/";
         }

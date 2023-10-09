@@ -33,7 +33,7 @@ public class FileServeController {
         InputStream resource;
         extension = extension.replace(".", "");
 
-        if (FileExtensionCheck.imageCheck(extension.toUpperCase()))
+        if (FileExtensionCheck.imageCheck(name))
             resource = fileService.getResource(imagePath, name);
         else
             resource = fileService.getResource(contentPath, name);

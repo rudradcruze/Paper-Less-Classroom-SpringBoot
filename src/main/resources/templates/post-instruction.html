@@ -57,7 +57,7 @@
                         <textarea name="content" id="content" th:field="*{content}" class="form-control content-richText" rows="6"></textarea>
                       </div>
                       <div class="mb-3">
-                        <label for="file" class="form-label">Attachment</label>
+                        <label for="file" class="form-label">Attachment: <a th:if="${submission.fileName != null}" target="_blank" th:href="@{'/files/' + ${submission.fileName}}" download>File attached</a></label>
                         <input type="file" id="file" name="file" class="form-control">
                       </div>
                       <div class="mb-3">
