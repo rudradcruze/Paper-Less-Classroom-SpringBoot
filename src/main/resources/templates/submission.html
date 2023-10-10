@@ -39,6 +39,7 @@
                         <p class="mb-0 pb-1">Post Date: <span th:text="${#dates.format(post.postDate, 'MMMM dd, yyyy hh:mm a')}"></span></p>
                         <p class="mb-0 pb-1">Sections: <span th:each="sectionName : ${post.sections} " th:text="${sectionName.name + ', '}"></span></p>
                         <p class="mb-0 pb-1">Status: <span th:text="${post.isStatus() ? 'Visible' : 'Hidden'}"></span></p>
+                        <p class="mb-0 pb-1">Grade: <span th:text="${post.grade}"></span></p>
                       </div>
                     </div>
                   </div>
@@ -53,7 +54,7 @@
                       <a th:href="@{'/files/' + ${submission.fileName}}" download target="_blank" th:if="${submission.fileName != null}" class="btn btn-outline-info w-100 mt-3">Download Attachment</a>
                     </div>
                     <div class="card-footer">
-                      <a href="#" class="btn btn-primary w-100">View Full Work</a>
+                      <a th:href="@{'/classroom/post/' + ${post.classroom.url} + '/' + ${post.id} + '/submission/' + ${submission.id}}" class="btn btn-primary w-100">View Full Work</a>
                     </div>
                   </div>
                 </div>

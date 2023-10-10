@@ -207,8 +207,40 @@ public class SubmissionController {
 
         model.addAttribute("submissionList", submissionList);
         model.addAttribute("post", postService.getById(Long.parseLong(id)));
-        model.addAttribute("title", "Student Work");
+        model.addAttribute("title", "Student Works");
+        model.addAttribute("isTeacher", true);
 
         return "submission";
+    }
+
+    @GetMapping("/classroom/post/{url}/{id}/submission/{submissionId}")
+    public String submissions(@PathVariable String id,
+                              @PathVariable String url,
+                              @PathVariable String submissionId,
+                              Model model,
+                              Principal principal,
+                              HttpSession session,
+                              RedirectAttributes attributes) {
+
+        if (principal == null) return "redirect:/login";
+
+        ClassroomController.userAndClassroom(model, principal, session, userService);
+        Submission submission = submissionService.getById(Long.parseLong(submissionId));
+        boolean teacher = isTeacher(principal, userService, classroomService.findByUrl(url));
+        Post post = postService.getById(Long.parseLong(id));
+
+        if (!teacher) {
+            attributes.addFlashAttribute("error", "You are not an teacher of this classroom");
+            return "redirect:/classroom/post/" + url + "/" + id;
+        }
+
+        model.addAttribute("submission", submission);
+        model.addAttribute("classroom", post.getClassroom());
+        model.addAttribute("isTeacher", true);
+        model.addAttribute("post", post);
+        model.addAttribute("title", submission.getStudent().getFirstName() + " Work");
+
+
+        return "each-submission";
     }
 }

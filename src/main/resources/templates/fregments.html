@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${title}"></title>
-  <script th:if="${logcss == null}" th:src="@{../../../../js/color-modes.js}"></script>
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../css/docsearch.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{../../../../css/bootstrap.min.css}">
+  <script th:if="${logcss == null}" th:src="@{../../../../../js/color-modes.js}"></script>
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../../css/docsearch.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../../../../../css/bootstrap.min.css}">
 
-  <link rel="stylesheet" type="text/css" th:href="@{../../../../css/fontawesome-all.min.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{../../../../css/font-awesome.min.4.7.0.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../../../../../css/fontawesome-all.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{../../../../../css/font-awesome.min.4.7.0.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/iofrm-style.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/iofrm-theme19.css}">
   <link th:if="${logcss != null}" rel="stylesheet" type="text/css" th:href="@{css/custom-style.css}">
 
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../css/style.css}">
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../css/headers.css}"/>
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../css/sidebars.css}">
-  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../css/richtext.min.css}">
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../../css/style.css}">
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../../css/headers.css}"/>
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../../css/sidebars.css}">
+  <link th:if="${logcss == null}" rel="stylesheet" type="text/css" th:href="@{../../../../../css/richtext.min.css}">
 </head>
 <body>
 
@@ -165,7 +165,7 @@
     <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1.5fr 1fr 1fr">
       <div class="dropdown">
         <a th:href="@{/}" class="d-flex align-items-center col-lg-6 mb-2 mb-lg-0 link-body-emphasis text-decoration-none" aria-expanded="false" >
-          <img th:src="@{../../../../../images/logo-icon.png}" width="50px" class="img-fluid" alt="Paper Less Classroom" />
+          <img th:src="@{../../../../../../images/logo-icon.png}" width="50px" class="img-fluid" alt="Paper Less Classroom" />
           <h2 class="ps-3 mb-0">Paper Less Classroom</h2>
         </a>
       </div>
@@ -175,7 +175,7 @@
       <div class="d-flex align-items-center justify-content-end">
         <div class="flex-shrink-0 dropdown">
           <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle" />
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGKwyvdoQACncSDlc5my4g9JYCWBkXLbbrnGNNIMncQdzn_NxbdXfl9oErfDuNs_BG4PQ&usqp=CAU" alt="mdo" width="50" height="50" class="rounded-circle" />
           </a>
           <ul class="dropdown-menu text-small shadow">
             <li>
@@ -185,7 +185,7 @@
             <li><hr class="dropdown-divider"/></li>
             <li><a class="dropdown-item" th:href="@{/classroom/new}">New Classroom</a></li>
             <li><a class="dropdown-item pe-auto" href="#" data-bs-toggle="modal" data-bs-target="#classRoomJoin">Join Classroom</a></li>
-            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+<!--            <li><a class="dropdown-item" href="#">Edit Profile</a></li>-->
             <li><hr class="dropdown-divider"/></li>
             <li><a class="dropdown-item text-danger" th:href="@{/logout}">Sign out</a></li>
           </ul>
@@ -249,7 +249,6 @@
           <div class="collapse" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li><a th:href="@{/classroom/teacher/request}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Teacher Request</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Question Bank</a></li>
             </ul>
           </div>
         </li>
@@ -416,13 +415,13 @@
   </div>
 
   <div th:fragment="scripts">
-    <script th:src="@{../../../../../js/jquery.min.js}"></script>
-    <script th:src="@{../../../../../js/popper.min.js}"></script>
-    <script th:src="@{../../../../../js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{../../../../../js/main.js}"></script>
-    <script th:src="@{../../../../../js/sidebars.js}"></script>
+    <script th:src="@{../../../../../../js/jquery.min.js}"></script>
+    <script th:src="@{../../../../../../js/popper.min.js}"></script>
+    <script th:src="@{../../../../../../js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{../../../../../../js/main.js}"></script>
+    <script th:src="@{../../../../../../js/sidebars.js}"></script>
     <script th:if="${logcss == null}" th:src="@{../../../js/jquery.richtext.min.js}"></script>
-    <script th:src="@{../../../../../js/dynamicForm.js}"></script>
+    <script th:src="@{../../../../../../js/dynamicForm.js}"></script>
   </div>
 </body>
 </html>
